@@ -7,12 +7,12 @@ This project is the conception of a web site displaying movies in differents
 First, install OCMovies API on your computer by following this procedure:
 * https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#readme
 Then clone my project by executing
- * git clone https://github.com/LeChat76/Projet6OC.git
+* git clone https://github.com/LeChat76/Projet6OC.git
 
 ```
 ## Execution
 ```sh
-Launch "index.html" from "Projet4OC" folder on your favorite web navigator.
+Launch "index.html" from "Projet6OC" folder on your favorite web navigator.
 ```
 ## Features
 ```sh
