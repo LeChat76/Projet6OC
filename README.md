@@ -1,12 +1,13 @@
 # Software to manage chess tournament
-## Project 6 OpenClassRooms (web site of treaming using HTML, CSS and Javascript)
+## Project 6 OpenClassRooms (web site of streaming using HTML, CSS and Javascript)
 This project is the conception of a web site displaying movies in differents
  categories.
 ## Installation
 ```sh
 First, install OCMovies API on your computer by following this procedure:
 * https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#readme
-Then clone my project by executing "git clone https://github.com/LeChat76/Projet6OC.git"
+Then clone my project by executing
+ * git clone https://github.com/LeChat76/Projet6OC.git
 
 ```
 ## Execution
