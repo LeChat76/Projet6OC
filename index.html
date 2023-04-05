@@ -22,19 +22,28 @@
 
 <main>
 <section class="best-movie">
+    <h1>Le film du moment!</h1>
     <div class="best-movie-image">
         <img alt="best-movie-image" src="images/white.png">
     </div>
-    <h1>Le film du moment!</h1>
-
     <div class="best-movie-title"></div>
         <h2 id="best-movie-title"></h2>
     </div>
     <div class="best-movie-summary">
         <p id="best-movie-summary"></p>            
     </div>
-    <button class="play_button" type="button"></i>Lecture</button>
-    <button class="more_button" type="button">Description</button>
+    <button class="play_button"></i>Lecture</button>
+    <button onclick="displayDescription();" id="more-button">Description</button>
+    <div class="best-movie-description">
+        <span id="best-movie-description" style="display:none;">
+        </span>          
+    </div>
+</section>
+<section class="random-movies">
+    <div class="random-movie-1">
+        <h1>Films les mieux notés</h1>
+        <img alt="best-movie-image" src="images/white.png">
+    </div>
 </section>
 
 
