@@ -50,7 +50,8 @@ function extractDatadMovies(gender) {
 
 function createNewSection(moviesUrls, gender) {
     // let test = ["https://m.media-amazon.com/images/M/MV5BNjFjNDQyYzYtZjI2NC00NmMwLTg1NjgtNTMxMWJjYTYxZjQ3XkEyXkFqcGdeQXVyMTA5MzgzNDUz._V1_UY268_CR1,0,182,268_AL_.jpg", "https://m.media-amazon.com/images/M/MV5BMTZjZjM3NTQtOTFmOS00ZGI3LWI2MGQtMGE3MWNlZTE2OWM3XkEyXkFqcGdeQXVyMTExNzA5NzE4._V1_UY268_CR9,0,182,268_AL_.jpg", "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg", "https://m.media-amazon.com/images/M/MV5BOWI4NGQ1M2YtNDM2Yi00YzAzLWJmZmYtMjkxZWMwNmM5Y2NhXkEyXkFqcGdeQXVyMjQ2OTI2MzU@._V1_UX182_CR0,0,182,268_AL_.jpg"]
-    console.log("moviesUrls", moviesUrls)
+    console.log("moviesUrls", moviesUrls);
+    console.log("moviesUrls", moviesUrls[0]);
     let body = document.body;
     let newSection = document.createElement("section");
     newSection.setAttribute("class", "section_cat");
@@ -58,19 +59,13 @@ function createNewSection(moviesUrls, gender) {
     let title = document.createElement("h1");
     title.textContent = gender;
     newSection.appendChild(title);
-    console.log("TypeMoviesUrls", moviesUrls.length);
     const array = [1, 2, 5];
-    console.log("Array : ", array);
-    console.log("moviesUrls", moviesUrls);
-    console.log("Debut ForEach");
     moviesUrls.forEach(movieUrl => {
-        console.log("Element : ", array);
         console.log("Debut ForEach");
         newImg = document.createElement("img");
         newImg.setAttribute("src", movieUrl);
         newImg.setAttribute("class", "cat_img");
         newSection.appendChild(newImg);
-        console.log("MovieUrl", movieUrl);
     });
 };
 

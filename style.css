@@ -2,6 +2,7 @@ header {
     background-color: #62757F;
     color: white;
     padding: 20px 50px;
+    border-radius: 30px;
 }
 
 nav {
@@ -28,6 +29,7 @@ nav a:hover {
     border-left: 4px solid black;
     border-top: 4px solid black;
     border-bottom: 4px solid black;
+    border-radius: 30px;
     /* separation entre header et cadre du f ilm du moment */
     margin-top: 20px;
     /* espacement bords du cadre */
@@ -55,8 +57,9 @@ h1 {
     border-left: 4px solid black;
     border-top: 4px solid black;
     border-bottom: 4px solid black;
+    border-radius: 30px;
     /* separation entre header et cadre du f ilm du moment */
-    margin-top: 20px;
+    margin-top: 8px;
     /* espacement bords du cadre */
     padding: 20px 50px 150px 50px;
 }
