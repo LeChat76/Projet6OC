@@ -30,20 +30,37 @@ nav a:hover {
     border-top: 4px solid black;
     border-bottom: 4px solid black;
     border-radius: 30px;
-    /* separation entre header et cadre du f ilm du moment */
-    margin-top: 20px;
+    /* separation entre header et cadre du film du moment */
+    margin-top: 10px;
     /* espacement bords du cadre */
-    padding: 20px 50px 200px 50px;
+    /* padding: 1px 50px 200px 50px; */
+    padding: 10px 50px 250px 50px;
 }
 
-.best-movie-image {
+.best-cover {
     float:right;
+    /* position: relative; */
+    /* top: 30px;
+    left :208px; */
     margin-left:200px;
     margin-bottom: 50px;
+    transition: transform .4s;
 }
 
-.cat_img {
-    margin-left:10px;
+.best-cover:hover {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.2);
+}
+
+.cover {
+    margin-left:30px;
+    transition: transform .4s;
+}
+.cover:hover {
+        -ms-transform: scale(1.5); /* IE 9 */
+        -webkit-transform: scale(1.5); /* Safari 3-8 */
+        transform: scale(1.2);
 }
 
 h1 {
@@ -61,5 +78,5 @@ h1 {
     /* separation entre header et cadre du f ilm du moment */
     margin-top: 8px;
     /* espacement bords du cadre */
-    padding: 20px 50px 150px 50px;
+    padding: 10px 50px 50px 50px;
 }
