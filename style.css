@@ -40,12 +40,16 @@ nav a:hover {
     margin-bottom: 50px;
 }
 
+.cat_img {
+    margin-left:10px;
+}
+
 h1 {
     text-align: center;
     color: red;
 }
 
-.random-movies {
+.section_cat {
     /* cadre noir autour de la categorie random movies */
     border-right: 4px solid black;
     border-left: 4px solid black;
@@ -56,39 +60,3 @@ h1 {
     /* espacement bords du cadre */
     padding: 20px 50px 150px 50px;
 }
-
- /* The Modal (background) */
- .best-movie-description-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-  
-  .best-movie-description-modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-  }
-  
-  .best-movie-description-close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .best-movie-description-close:hover,
-  .best-movie-description-close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  } 
