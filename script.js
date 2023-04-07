@@ -1,22 +1,23 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
+let modal = null;
 
-function extractDataBestMovie() {
+async function extractDataBestMovie() {
 
     let bestMovieTitle = document.getElementById('best-movie-title');
     let bestMovieImg = document.getElementsByClassName('best-cover')[0].getElementsByTagName("img")[0];
     let bestMovieDescription = document.getElementsByClassName('best-movie-summary')[0].getElementsByTagName("p")[0];
+    // let bestMovie;
 
-    fetch(baseUrl)
+    const bestMovies = await fetch(baseUrl)
         .then(response => response.json())
-        .then((bestMovies) => {
-            bestMovie = createMovieObject(bestMovies["results"][0]);
-            bestMovieTitle.innerHTML = bestMovie.title;
-            bestMovieImg.src = bestMovie.image_url;
-            bestMovieDescription.innerHTML = bestMovie.description; // pourquoi retourne "undefined"?!?!!!!
-        })
+        bestMovie = await createMovieObjModal(bestMovies["results"][0]["id"]);
+        bestMovieTitle.innerHTML = bestMovie.title;
+        bestMovieImg.src = bestMovie.image_url;
+        bestMovieDescription.innerHTML = bestMovie.description;
+        bestMovieImg.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
 }
 
-function createMovieObject(movie) {
+async function createMovieObject(movie) {
     let movieObj = new Object();
     movieObj.id = movie["id"];
     movieObj.image_url = movie["image_url"];
@@ -27,34 +28,52 @@ function createMovieObject(movie) {
     movieObj.imdb_score = movie["imdb_score"];
     movieObj.directors = movie["directors"];
     movieObj.actors = movie["actors"];
-    fetch(movie["url"])
+    await fetch(movie["url"])
         .then(response => response.json())
-        .then((movieImdb_Url) => {
-            movieObj.duration = movieImdb_Url["duration"];
-            movieObj.countries = movieImdb_Url["countries"];
-            movieObj.worldwide_gross_income = movieImdb_Url["worldwide_gross_income"];
-            movieObj.description = movieImdb_Url["description"];
-            console.log(movieObj);
+        .then((movieImdb_UrlJson) => {
+            movieObj.duration = movieImdb_UrlJson["duration"];
+            movieObj.countries = movieImdb_UrlJson["countries"];
+            movieObj.worldwide_gross_income = movieImdb_UrlJson["worldwide_gross_income"];
+            movieObj.description = movieImdb_UrlJson["description"];
         })
     return movieObj;
 }
 
-function extractDataMovies(gender) {
-    reqUrl = baseUrl + "&genre_contains=" + gender;
-    let moviesImgUrls = new Array();
-    fetch(reqUrl)
+async function createMovieObjModal(movieId) {
+    return fetch(`http://localhost:8000/api/v1/titles/${movieId}`)
         .then(response => response.json())
-        .then((movies) => {
-            for (let i=0; i<5; i++) {  // pourquoi pas plus de 4 resultats?!?
-                movieImgUrl = createMovieObject(movies["results"][i]);
-                // console.log("movieImgUrl : ", movieImgUrl);
-                moviesImgUrls.push(movieImgUrl);
-            }
-            createNewSection(moviesImgUrls, gender);
+        .then((movieImdb_UrlJson) => {
+            let movieObj = new Object();
+            movieObj.id = movieImdb_UrlJson["id"];
+            movieObj.image_url = movieImdb_UrlJson["image_url"];
+            movieObj.title = movieImdb_UrlJson["title"];
+            movieObj.genres = movieImdb_UrlJson["genres"];
+            movieObj.year = movieImdb_UrlJson["year"];
+            movieObj.votes = movieImdb_UrlJson["votes"];
+            movieObj.imdb_score = movieImdb_UrlJson["imdb_score"];
+            movieObj.directors = movieImdb_UrlJson["directors"];
+            movieObj.actors = movieImdb_UrlJson["actors"];
+            movieObj.duration = movieImdb_UrlJson["duration"];
+            movieObj.countries = movieImdb_UrlJson["countries"];
+            movieObj.worldwide_gross_income = movieImdb_UrlJson["worldwide_gross_income"];
+            movieObj.description = movieImdb_UrlJson["description"];
+            return movieObj;
         })
+}
+
+async function extractDataMovies(gender) {
+    reqUrl = baseUrl + "&genre_contains=" + gender + "&page_size=7";
+    let moviesImgUrls = new Array();
+    const movies = await fetch(reqUrl)
+        .then(response => response.json())
         .catch(function(error) {
             console.log("Fetch_Error : " + error + "/ (i=" + i + ")")
         })
+        for (let i=0; i<7; i++) {
+            movieImgUrl = await createMovieObject(movies["results"][i]);
+            moviesImgUrls.push(movieImgUrl);
+        }
+        createNewSection(moviesImgUrls, gender);
 }
 
 function createNewSection(moviesUrls, gender) {
@@ -70,9 +89,38 @@ function createNewSection(moviesUrls, gender) {
         newImg.setAttribute("src", movieUrl.image_url);
         newImg.setAttribute("class", "cover");
         newImg.setAttribute("width", 210);
+        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")")
         newSection.appendChild(newImg);
     });
 };
+
+async function openModal(movieId) {
+    const modal = document.getElementById("modal");
+    let movieTitleModal = document.getElementById("modal-title");
+    let movieImgModal = document.getElementById("modal-cover");
+
+    // const modalClose = document.getElementById("modal-close");
+    movieModal = await createMovieObjModal(movieId);
+    
+    movieTitleModal.innerHTML = movieModal.title;
+    movieImgModal.src = movieModal.image_url;
+
+    modal.style.display = null;
+
+    activeModal = modal;
+
+    activeModal.addEventListener("click", closeModal());
+    movieImgModal.addEventListener("click", closeModal());
+}
+
+function closeModal() {
+    if (modal === null) return;
+    modal.style.display = "none";
+    modal.removeEventListener("click", closeModal());
+    movieImgModal.removeEventListener("click", closeModal());
+    modal = null
+    console.log(modal.style.display);
+}
 
 window.addEventListener('load', () => {
     extractDataBestMovie();

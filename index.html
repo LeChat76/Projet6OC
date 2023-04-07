@@ -24,7 +24,7 @@
         <section class="best-movie">
             <h1>Le film le mieux noté</h1>
             <div class="best-cover">
-                <img src="images/white.png" width="210">
+                <img src="images/white.PNG" class="button" onclick="openModal(movieId)">
             </div>
             <div class="best-movie-title">
                 <h2 id="best-movie-title"></h2>
@@ -33,10 +33,18 @@
                 <p></p>            
             </div>
             <button class="button">Lecture</button>
-            <button class="button">Description</button>
+            <button>Description</button>
 
         </section>
-        
+
+        <section class="modal" id="modal" role="modal" style="display:none;">
+            <div class="modal-content">
+                <div class="modal-title" id="modal-title"></div>
+                <img src="images/white.PNG"  class="modal-cover" id="modal-cover" onclick="closeModal()">
+                <div class="modal-summary"></div>
+            </div>
+        </section>
+
     </body>
 
 </html>
