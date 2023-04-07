@@ -1,6 +1,6 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
 
-function extractBestMovie() {
+function extractDataBestMovie() {
 
     let bestMovieTitle = document.getElementById('best-movie-title');
     let bestMovieImg = document.getElementsByClassName('best-cover')[0].getElementsByTagName("img")[0];
@@ -9,26 +9,37 @@ function extractBestMovie() {
     fetch(baseUrl)
         .then(response => response.json())
         .then((bestMovies) => {
-            bestMovie = createBestMovieObject(bestMovies);
+            bestMovie = createMovieObject(bestMovies["results"][0]);
             bestMovieTitle.innerHTML = bestMovie.title;
             bestMovieImg.src = bestMovie.image_url;
-            bestMovieDescription.innerHTML = bestMovie.description;
+            bestMovieDescription.innerHTML = bestMovie.description; // pourquoi retourne "undefined"?!?!!!!
         })
 }
 
-function createBestMovieObject(bestMovies) {
-    let bestMovieObj = new Object();
-    bestMovieObj.title = bestMovies["results"][0]["title"];
-    bestMovieObj.image_url = bestMovies["results"][0]["image_url"];
-    fetch(bestMovies["results"][0]["url"])
-    .then(response => response.json())
-    .then(bestMovieDesc => {
-        bestMovieDescription = bestMovieDesc["description"];
-    })
-    return bestMovieObj;
+function createMovieObject(movie) {
+    let movieObj = new Object();
+    movieObj.id = movie["id"];
+    movieObj.image_url = movie["image_url"];
+    movieObj.title = movie["title"];
+    movieObj.genres = movie["genres"];
+    movieObj.year = movie["year"];
+    movieObj.votes = movie["votes"];
+    movieObj.imdb_score = movie["imdb_score"];
+    movieObj.directors = movie["directors"];
+    movieObj.actors = movie["actors"];
+    fetch(movie["url"])
+        .then(response => response.json())
+        .then((movieImdb_Url) => {
+            movieObj.duration = movieImdb_Url["duration"];
+            movieObj.countries = movieImdb_Url["countries"];
+            movieObj.worldwide_gross_income = movieImdb_Url["worldwide_gross_income"];
+            movieObj.description = movieImdb_Url["description"];
+            console.log(movieObj);
+        })
+    return movieObj;
 }
 
-function extractDatadMovies(gender) {
+function extractDataMovies(gender) {
     reqUrl = baseUrl + "&genre_contains=" + gender;
     let moviesImgUrls = new Array();
     fetch(reqUrl)
@@ -44,12 +55,6 @@ function extractDatadMovies(gender) {
         .catch(function(error) {
             console.log("Fetch_Error : " + error + "/ (i=" + i + ")")
         })
-}
-
-function createMovieObject(movie) {
-    let movieObj = new Object();
-    movieObj.image_url = movie["image_url"];
-    return movieObj;
 }
 
 function createNewSection(moviesUrls, gender) {
@@ -70,8 +75,8 @@ function createNewSection(moviesUrls, gender) {
 };
 
 window.addEventListener('load', () => {
-    extractBestMovie();
-    extractDatadMovies("Thriller");
-    extractDatadMovies("Horror");
-    extractDatadMovies("Comedy");
+    extractDataBestMovie();
+    extractDataMovies("Thriller");
+    extractDataMovies("Horror");
+    extractDataMovies("Comedy");
 });
