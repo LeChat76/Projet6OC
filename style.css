@@ -19,8 +19,16 @@ nav a {
     text-decoration: none;
 }
 
-nav a:hover {
-    color: rgb(17, 17, 97);
+.modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-close:hover {
+    color: black;
+    cursor: pointer;
 }
 
 .best-movie {
@@ -112,4 +120,8 @@ h1 {
 .modal-cover {
     float:right;
     width: 250px;
+}
+
+.modal-description {
+    text-align: left;
 }

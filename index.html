@@ -13,18 +13,18 @@
 
         <header>
             <nav>
-                <img src="accueil/logo.png" alt="JustStreamIt">
+                <img src="images/logo.png" alt="JustStreamIt">
                 <div>
                     <a href="index.html">Accueil</a>
-                    <a href="a-propos.html">Categories</a>
+                    <a href="categories.html">Categories</a>
                 </div>
             </nav>
         </header>
 
-        <section class="best-movie">
+        <section class="best-movie">            
             <h1>Le film le mieux noté</h1>
             <div class="best-cover">
-                <img src="images/white.PNG" class="button" onclick="openModal(movieId)">
+                <img src="images/white.PNG" class="button">
             </div>
             <div class="best-movie-title">
                 <h2 id="best-movie-title"></h2>
@@ -37,11 +37,13 @@
 
         </section>
 
-        <section class="modal" id="modal" role="modal" style="display:none;">
+        <section class="modal" id="modal" role="modal" style="display:none;" onclick = "closeModal()">
             <div class="modal-content">
-                <div class="modal-title" id="modal-title"></div>
-                <img src="images/white.PNG"  class="modal-cover" id="modal-cover" onclick="closeModal()">
-                <div class="modal-summary"></div>
+                <span class="modal-close" id="modal-close">&times;</span>
+                <div class="modal-title" id="modal-title"></div><br>
+                <img src="images/white.PNG" class="modal-cover" id="modal-cover">
+                <div>Description : </div>
+                <div class = "modal-description" id="modal-description"></div>
             </div>
         </section>
 

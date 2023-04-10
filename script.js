@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score"
+const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
 let modal = null;
 
 async function extractDataBestMovie() {
@@ -6,7 +6,6 @@ async function extractDataBestMovie() {
     let bestMovieTitle = document.getElementById('best-movie-title');
     let bestMovieImg = document.getElementsByClassName('best-cover')[0].getElementsByTagName("img")[0];
     let bestMovieDescription = document.getElementsByClassName('best-movie-summary')[0].getElementsByTagName("p")[0];
-    // let bestMovie;
 
     const bestMovies = await fetch(baseUrl)
         .then(response => response.json())
@@ -22,20 +21,6 @@ async function createMovieObject(movie) {
     movieObj.id = movie["id"];
     movieObj.image_url = movie["image_url"];
     movieObj.title = movie["title"];
-    movieObj.genres = movie["genres"];
-    movieObj.year = movie["year"];
-    movieObj.votes = movie["votes"];
-    movieObj.imdb_score = movie["imdb_score"];
-    movieObj.directors = movie["directors"];
-    movieObj.actors = movie["actors"];
-    await fetch(movie["url"])
-        .then(response => response.json())
-        .then((movieImdb_UrlJson) => {
-            movieObj.duration = movieImdb_UrlJson["duration"];
-            movieObj.countries = movieImdb_UrlJson["countries"];
-            movieObj.worldwide_gross_income = movieImdb_UrlJson["worldwide_gross_income"];
-            movieObj.description = movieImdb_UrlJson["description"];
-        })
     return movieObj;
 }
 
@@ -97,29 +82,22 @@ function createNewSection(moviesUrls, gender) {
 async function openModal(movieId) {
     const modal = document.getElementById("modal");
     let movieTitleModal = document.getElementById("modal-title");
+    let movieDescription = document.getElementById("modal-description");
     let movieImgModal = document.getElementById("modal-cover");
 
-    // const modalClose = document.getElementById("modal-close");
     movieModal = await createMovieObjModal(movieId);
     
     movieTitleModal.innerHTML = movieModal.title;
     movieImgModal.src = movieModal.image_url;
+    movieDescription.innerHTML = movieModal.description;
 
     modal.style.display = null;
-
-    activeModal = modal;
-
-    activeModal.addEventListener("click", closeModal());
-    movieImgModal.addEventListener("click", closeModal());
 }
 
 function closeModal() {
-    if (modal === null) return;
+    console.log("Clické!");
+    const modal = document.getElementById("modal");
     modal.style.display = "none";
-    modal.removeEventListener("click", closeModal());
-    movieImgModal.removeEventListener("click", closeModal());
-    modal = null
-    console.log(modal.style.display);
 }
 
 window.addEventListener('load', () => {
