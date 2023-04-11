@@ -75,6 +75,8 @@ nav a {
 h1 {
     text-align: center;
     color: red;
+    font-weight: bold;
+    font-size: 30px;
 }
 
 .section_cat {
@@ -105,7 +107,7 @@ h1 {
 .modal-content {
     border-radius: 20px;
     overflow: auto;
-    width: auto;
+    width: 800px;
     height: auto;
     max-width: calc(100vw - 20px);
     max-height: calc(100vh - 20px);
@@ -113,10 +115,6 @@ h1 {
     background-color: white;
 }
 
-.modal-title {
-    text-align: center;
-    color: red; 
-}
 .modal-cover {
     float:right;
     width: 250px;
@@ -124,4 +122,14 @@ h1 {
 
 .modal-description {
     text-align: left;
+}
+
+.modal-infos {
+    font-weight: bold;
+    font-size: 18px;
+    /* text-decoration: underline; */
+}
+
+.modal-infos-description {
+    font-weight: normal;
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>justStreamIt</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel=stylesheet href=style.css/>
     <script src="script.js"></script>
     
 </head>
@@ -24,7 +24,7 @@
         <section class="best-movie">            
             <h1>Le film le mieux noté</h1>
             <div class="best-cover">
-                <img src="images/white.PNG" class="button">
+                <img src="images/white.PNG" alt="best-cover">
             </div>
             <div class="best-movie-title">
                 <h2 id="best-movie-title"></h2>
@@ -33,17 +33,45 @@
                 <p></p>            
             </div>
             <button class="button">Lecture</button>
-            <button>Description</button>
+            <button class="button" id="bestMovieButton">Description</button>
 
         </section>
 
-        <section class="modal" id="modal" role="modal" style="display:none;" onclick = "closeModal()">
+        <section class="modal" id="modal" style="display:none;" onclick = "closeModal()">
             <div class="modal-content">
                 <span class="modal-close" id="modal-close">&times;</span>
-                <div class="modal-title" id="modal-title"></div><br>
-                <img src="images/white.PNG" class="modal-cover" id="modal-cover">
-                <div>Description : </div>
-                <div class = "modal-description" id="modal-description"></div>
+                <h1 id="modal-title"></h1><br>
+                <img src="images/white.PNG" class="modal-cover" id="modal-cover" alt="modal-cover">
+                <div class="modal-infos">Genre :
+                    <span class="modal-infos-description" id="modal-genre"></span>
+                </div>
+                <div class="modal-infos">Date de sortie :
+                    <span class="modal-infos-description" id="modal-date-published"></span>
+                </div>
+                <div class="modal-infos">Rated :
+                    <span class="modal-infos-description" id="modal-rated"></span>
+                </div>
+                <div class="modal-infos">Score Imdb :
+                    <span class="modal-infos-description" id="modal-imdb-score"></span>
+                </div>
+                <div class="modal-infos">Réalisateur :
+                    <span class="modal-infos-description" id="modal-directors"></span>
+                </div>
+                <div class="modal-infos">Acteurs :
+                    <span class="modal-infos-description" id="modal-actors"></span>
+                </div>
+                <div class="modal-infos">Durée :
+                    <span class="modal-infos-description" id="modal-duration"></span>
+                </div>
+                <div class="modal-infos">Pays d'origine :
+                    <span class="modal-infos-description" id="modal-countries"></span>
+                </div>  
+                <div class="modal-infos">Result au Box Office :
+                    <span  class="modal-infos-description" id="modal-worldwide-gross-income"></span>
+                </div>
+                <div class="modal-infos">Résumé :
+                    <span class="modal-infos-description" id="modal-description"></span>
+                </div>
             </div>
         </section>
 
