@@ -47,6 +47,8 @@ function createNewSection(moviesUrls, gender) {
     newSection.setAttribute("class", "section_cat");
     body.appendChild(newSection);
     let title = document.createElement("h1");
+    title.setAttribute("class", gender);
+    title.style.fontFamily = gender;
     title.textContent = gender;
     newSection.appendChild(title);
     moviesUrls.forEach(movieUrl => {
@@ -54,7 +56,7 @@ function createNewSection(moviesUrls, gender) {
         newImg.setAttribute("src", movieUrl.image_url);
         newImg.setAttribute("class", "cover");
         newImg.setAttribute("width", 210);
-        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")")
+        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
         newSection.appendChild(newImg);
     });
 };
@@ -97,7 +99,6 @@ async function openModal(movieId) {
     let movieDescription = document.getElementById("modal-description");
 
     movieModal = await createMovieObjModal(movieId);
-    console.log("movieModal : ", movieModal);
     
     movieImgModal.src = movieModal.image_url;
     movieTitleModal.innerHTML = movieModal.title;
@@ -116,7 +117,6 @@ async function openModal(movieId) {
 }
 
 function closeModal() {
-    console.log("Clické!");
     const modal = document.getElementById("modal");
     modal.style.display = "none";
 }
