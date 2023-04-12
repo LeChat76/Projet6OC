@@ -34,7 +34,7 @@ async function extractDataMovies(gender) {
         .catch(function(error) {
             console.log("Fetch_Error : " + error + "/ (i=" + i + ")")
         })
-        for (let i=0; i<4; i++) {
+        for (let i=0; i<7; i++) {
             movieImgUrl = await createMovieObject(movies["results"][i]);
             moviesImgUrls.push(movieImgUrl);
         }
@@ -43,38 +43,63 @@ async function extractDataMovies(gender) {
 
 function createNewSection(moviesUrls, gender) {
     let body = document.body;
+    /* creation d'une nouvelle section */
     let newSection = document.createElement("section");
     newSection.setAttribute("class", "section_cat");
     body.appendChild(newSection);
-    // console.log("newSection", newSection);
-    let leftArrow = document.createElement("img");
-    leftArrow.setAttribute("src", "./images/fleche.png");
-    leftArrow.setAttribute("class", "carousel-button");
-    leftArrow.setAttribute("id", "left");
-    newSection.appendChild(leftArrow);
-    let rightArrow = document.createElement("img");
-    rightArrow.setAttribute("src", "./images/fleche.png");
-    rightArrow.setAttribute("class", "carousel-button");
-    rightArrow.setAttribute("id", "right");
-    newSection.appendChild(rightArrow);
+    
+    /* creation du titre */
     let title = document.createElement("h1");
     title.setAttribute("class", gender);
     title.style.fontFamily = gender;
     title.textContent = gender;
     newSection.appendChild(title);
-    moviesUrls.forEach(movieUrl => {
+    
+    /* creation du div carousel dans la nouvelle section */
+    let carouselDiv = document.createElement("div");
+    carouselDiv.setAttribute("id", "carousel");
+    newSection.appendChild(carouselDiv);
+
+    /* creation du div container dans le div carousel */
+    let container = document.createElement("div");
+    container.setAttribute("id", "container");
+    carouselDiv.appendChild(container);
+
+    /* creation des 2 boutons du carousel */
+    let leftArrow = document.createElement("img");
+    leftArrow.setAttribute("src", "./images/fleche-gauche.png");
+    leftArrow.setAttribute("class", "carousel-button");
+    leftArrow.setAttribute("id", "left");
+    container.appendChild(leftArrow);
+    let rightArrow = document.createElement("img");
+    rightArrow.setAttribute("src", "./images/fleche-droite.png");
+    rightArrow.setAttribute("class", "carousel-button");
+    rightArrow.setAttribute("id", "right");
+    container.appendChild(rightArrow);
+
+    /* creation des images */
+    moviesUrls.forEach((movieUrl, index) => {
         newImg = document.createElement("img");
         newImg.setAttribute("src", movieUrl.image_url);
         newImg.setAttribute("class", "cover");
-        newImg.setAttribute("width", 210);
         newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
-        newSection.appendChild(newImg);
+        newImg.setAttribute("id", index + 1);
+        if ((index + 1) > 4) {
+            newImg.style.display = "none";
+        }
+        container.appendChild(newImg);
     });
-    let heightNewSection = newSection.clientHeight;
+    
+    /* modification du positionnement des boutons en fonctions de la taille de la section */
+    let heightContainer = container.clientHeight;
     let heightArrow = rightArrow.clientHeight;
-    // console.log("heightNewSection", heightNewSection);
-    leftArrow.style.marginTop = (((heightNewSection - heightArrow) / 2) + "px");
-    rightArrow.style.marginTop = (((heightNewSection - heightArrow) / 2) + "px");
+    leftArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
+    rightArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
+
+    /* relevé de l'état des flèches */
+    leftArrowState = document.getElementById("left");
+    rightArrowState = document.getElementById("right");
+
 };
 
 async function createMovieObjModal(movieId) {
