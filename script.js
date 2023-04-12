@@ -34,7 +34,7 @@ async function extractDataMovies(gender) {
         .catch(function(error) {
             console.log("Fetch_Error : " + error + "/ (i=" + i + ")")
         })
-        for (let i=0; i<7; i++) {
+        for (let i=0; i<4; i++) {
             movieImgUrl = await createMovieObject(movies["results"][i]);
             moviesImgUrls.push(movieImgUrl);
         }
@@ -46,6 +46,17 @@ function createNewSection(moviesUrls, gender) {
     let newSection = document.createElement("section");
     newSection.setAttribute("class", "section_cat");
     body.appendChild(newSection);
+    // console.log("newSection", newSection);
+    let leftArrow = document.createElement("img");
+    leftArrow.setAttribute("src", "./images/fleche.png");
+    leftArrow.setAttribute("class", "carousel-button");
+    leftArrow.setAttribute("id", "left");
+    newSection.appendChild(leftArrow);
+    let rightArrow = document.createElement("img");
+    rightArrow.setAttribute("src", "./images/fleche.png");
+    rightArrow.setAttribute("class", "carousel-button");
+    rightArrow.setAttribute("id", "right");
+    newSection.appendChild(rightArrow);
     let title = document.createElement("h1");
     title.setAttribute("class", gender);
     title.style.fontFamily = gender;
@@ -59,6 +70,11 @@ function createNewSection(moviesUrls, gender) {
         newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
         newSection.appendChild(newImg);
     });
+    let heightNewSection = newSection.clientHeight;
+    let heightArrow = rightArrow.clientHeight;
+    // console.log("heightNewSection", heightNewSection);
+    leftArrow.style.marginTop = (((heightNewSection - heightArrow) / 2) + "px");
+    rightArrow.style.marginTop = (((heightNewSection - heightArrow) / 2) + "px");
 };
 
 async function createMovieObjModal(movieId) {
