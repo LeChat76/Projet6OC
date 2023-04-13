@@ -16,6 +16,6 @@ Launch "index.html" from "Projet6OC" folder on your favorite web navigator.
 ```
 ## Features
 ```sh
-- display long description when clicking on cover
-- create caroussel for display more films in each categories
+- summary when clicking on cover
+- caroussel for display more films in each categories
 ```
