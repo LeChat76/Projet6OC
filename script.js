@@ -96,6 +96,8 @@ function createNewSection(moviesUrls, gender) {
     leftArrow.setAttribute("id", gender + "-left");
     leftArrow.style.float = "left";
     leftArrow.setAttribute("onclick", 'carouselLeft("' + gender + '")');
+    leftArrow.style.pointerEvents = "none";
+    leftArrow.style.opacity = "0.15";
     container.appendChild(leftArrow);
     
     /* creation des images */
@@ -120,8 +122,6 @@ function createNewSection(moviesUrls, gender) {
     rightArrow.setAttribute("id", gender + "-right");
     rightArrow.style.float= "right";
     rightArrow.setAttribute("onclick", 'carouselRight("' + gender + '")');
-    rightArrow.style.pointerEvents = "none";
-    rightArrow.style.opacity = "0.15";
     container.appendChild(rightArrow);
 
     /* modification du positionnement des boutons en fonctions de la taille de la section */
@@ -204,47 +204,47 @@ function closeModal() {
     modal.style.display = "none";
 }
 
-function carouselLeft(gender) {
+function carouselRight(gender) {
     let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
     let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
     if (!images[0].style.display) {
         images[0].style.display = "none";
         images[4].style.display = "";
-        /* reactivation du bouton fleche droite quand arrivé au bout de la liste */
-        rightArrow.style.pointerEvents = "auto";
-        rightArrow.style.opacity = "0.4";
+        /* reactivation du bouton fleche gauche quand arrivé au bout de la liste */
+        leftArrow.style.pointerEvents = "auto";
+        leftArrow.style.opacity = "0.4";
     } else if (!images[1].style.display) {
         images[1].style.display = "none";
         images[5].style.display = "";
     } else if (!images[2].style.display) {
         images[2].style.display = "none";
         images[6].style.display = "";
-        /* desactivation du bouton fleche gauche quand arrivé au bout de la liste */
-        leftArrow.style.pointerEvents = "none";
-        leftArrow.style.opacity = "0.1";
+        /* desactivation du bouton fleche droite quand arrivé au bout de la liste */
+        rightArrow.style.pointerEvents = "none";
+        rightArrow.style.opacity = "0.1";
     }
 }
 
-function carouselRight(gender) {
+function carouselLeft(gender) {
     let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
     let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
     if (!images[6].style.display) {
         images[6].style.display = "none";
         images[2].style.display = "";
-        /* reactivation du bouton fleche gauche quand arrivé au bout de la liste */
-        leftArrow.style.pointerEvents = "auto";
-        leftArrow.style.opacity = "0.4";
+        /* reactivation du bouton fleche droite quand arrivé au bout de la liste */
+        rightArrow.style.pointerEvents = "auto";
+        rightArrow.style.opacity = "0.4";
     } else if (!images[5].style.display) {
         images[5].style.display = "none";
         images[1].style.display = "";
     } else if (!images[4].style.display) {
         images[4].style.display = "none";
         images[0].style.display = "";
-        /* desactivation du bouton fleche droite quand arrivé au bout de la liste */
-        rightArrow.style.pointerEvents = "none";
-        rightArrow.style.opacity = "0.1";
+        /* desactivation du bouton fleche gauche quand arrivé au bout de la liste */
+        leftArrow.style.pointerEvents = "none";
+        leftArrow.style.opacity = "0.1";
     }
 }
 
