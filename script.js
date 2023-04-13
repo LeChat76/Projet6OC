@@ -1,5 +1,4 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
-// let modal = null;
 
 async function extractDataBestMovie() {
 
@@ -15,7 +14,9 @@ async function extractDataBestMovie() {
         bestMovieImg.src = bestMovie.image_url;
         bestMovieDescription.innerHTML = bestMovie.description;
         bestMovieImg.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
+        bestMovieImg.setAttribute("title", bestMovie.title + " (cliquez moi pour infos)")
         bestMovieButton.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
+
 }
 
 async function createMovieObject(movie) {
@@ -27,24 +28,38 @@ async function createMovieObject(movie) {
 }
 
 async function extractDataMovies(gender) {
-    reqUrl = baseUrl + "&genre_contains=" + gender + "&page_size=7";
+    if (gender == "Best") {
+        reqUrl = baseUrl + "&page_size=8"
+    } else {
+        reqUrl = baseUrl + "&genre_contains=" + gender + "&page_size=7";
+    }
     let moviesImgUrls = new Array();
     const movies = await fetch(reqUrl)
         .then(response => response.json())
         .catch(function(error) {
             console.log("Fetch_Error : " + error + "/ (i=" + i + ")")
         })
-        for (let i=0; i<7; i++) {
-            movieImgUrl = await createMovieObject(movies["results"][i]);
-            moviesImgUrls.push(movieImgUrl);
+        if (gender == "Best") {
+            for (let i=1; i<8; i++) {
+                movieImgUrl = await createMovieObject(movies["results"][i]);
+                moviesImgUrls.push(movieImgUrl);
+            }
+        } else {
+            for (let i=0; i<7; i++) {
+                movieImgUrl = await createMovieObject(movies["results"][i]);
+                moviesImgUrls.push(movieImgUrl);
+            }
         }
-        createNewSection(moviesImgUrls, gender);
+        if (gender == "Best") {
+            createNewSection(moviesImgUrls, "Best");
+        } else {
+            createNewSection(moviesImgUrls, gender);
+        }
 }
 
 function createNewSection(moviesUrls, gender) {
     
     /* creation des sections avec carousel */
-    
     let body = document.body;
 
     /* creation d'une nouvelle section */
@@ -52,15 +67,18 @@ function createNewSection(moviesUrls, gender) {
     newSection.setAttribute("class", "section_cat");
     newSection.setAttribute("id", gender);
     body.appendChild(newSection);
-    
+
     /* creation du titre */
     let title = document.createElement("h1");
     title.setAttribute("class", gender);
-    // title.setAttribute("id", gender);
     title.style.fontFamily = gender;
-    title.textContent = gender;
+    if (gender == "Best") {
+        title.textContent = "Meilleur classement";
+    } else {
+        title.textContent = gender;
+    }
     newSection.appendChild(title);
-    
+
     /* creation du div carousel dans la nouvelle section */
     let carouselDiv = document.createElement("div");
     carouselDiv.setAttribute("id", "carousel");
@@ -71,7 +89,7 @@ function createNewSection(moviesUrls, gender) {
     container.setAttribute("id", "container");
     carouselDiv.appendChild(container);
 
-    /* creation des 2 boutons du carousel */
+    /* creation du bouton gauche du carousel */
     let leftArrow = document.createElement("img");
     leftArrow.setAttribute("src", "./images/fleche-gauche.png");
     leftArrow.setAttribute("class", "carousel-button");
@@ -79,6 +97,23 @@ function createNewSection(moviesUrls, gender) {
     leftArrow.style.float = "left";
     leftArrow.setAttribute("onclick", 'carouselLeft("' + gender + '")');
     container.appendChild(leftArrow);
+    
+    /* creation des images */
+    moviesUrls.forEach((movieUrl, index) => {
+        newImg = document.createElement("img");
+        newImg.setAttribute("src", movieUrl.image_url);
+        newImg.setAttribute("class", "cover");
+        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
+        newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
+        newImg.setAttribute("style", "display: null;");
+        newImg.setAttribute("title", movieUrl.title + " (cliquez moi pour infos)");
+        if ((index + 1) > 4) {
+            newImg.style.display = "none";
+        }
+        container.appendChild(newImg);
+    });
+
+    /* creation du bouton droit du carousel */
     let rightArrow = document.createElement("img");
     rightArrow.setAttribute("src", "./images/fleche-droite.png");
     rightArrow.setAttribute("class", "carousel-button");
@@ -89,26 +124,12 @@ function createNewSection(moviesUrls, gender) {
     rightArrow.style.opacity = "0.15";
     container.appendChild(rightArrow);
 
-    /* creation des images */
-    moviesUrls.forEach((movieUrl, index) => {
-        newImg = document.createElement("img");
-        newImg.setAttribute("src", movieUrl.image_url);
-        newImg.setAttribute("class", "cover");
-        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
-        newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
-        newImg.setAttribute("style", "display: null;");
-        if ((index + 1) > 5) {
-            newImg.style.display = "none";
-        }
-        container.appendChild(newImg);
-    });
-    
     /* modification du positionnement des boutons en fonctions de la taille de la section */
     let heightContainer = container.clientHeight;
     let heightArrow = rightArrow.clientHeight;
-    leftArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
-    rightArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
-
+    leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
+    rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
+    
     /* relevé de l'état des flèches */
     leftArrowState = document.getElementById("left");
     rightArrowState = document.getElementById("right");
@@ -120,7 +141,7 @@ async function createMovieObjModal(movieId) {
         .then(response => response.json())
         .then((movieImdb_UrlJson) => {
             let movieObj = new Object();
-
+            
             /* récupération de tous les attributs */
             movieObj.id = movieImdb_UrlJson["id"];
             movieObj.image_url = movieImdb_UrlJson["image_url"];
@@ -141,7 +162,7 @@ async function createMovieObjModal(movieId) {
 
 async function openModal(movieId) {
     const modal = document.getElementById("modal");
-
+    
     /* recuperation de chaque elements du DOM */
     let movieTitleModal = document.getElementById("modal-title");
     let movieImgModal = document.getElementById("modal-cover");
@@ -155,7 +176,7 @@ async function openModal(movieId) {
     let movieCountries = document.getElementById("modal-countries");
     let movieWorldwideGrossIncome = document.getElementById("modal-worldwide-gross-income");
     let movieDescription = document.getElementById("modal-description");
-
+    
     /* creation de l'objet film */
     movieModal = await createMovieObjModal(movieId);
     
@@ -172,13 +193,12 @@ async function openModal(movieId) {
     movieCountries.innerHTML = movieModal.countries;
     movieWorldwideGrossIncome.innerHTML = movieModal.worldwide_gross_income;
     movieDescription.innerHTML = movieModal.description;
-
+    
     /* affichage du modal */
     modal.style.display = null;
 }
-
 function closeModal() {
-
+    
     /* faire disparaitre le modal */
     const modal = document.getElementById("modal");
     modal.style.display = "none";
@@ -190,17 +210,19 @@ function carouselLeft(gender) {
     let rightArrow = document.getElementById(gender + "-right");
     if (!images[0].style.display) {
         images[0].style.display = "none";
-        images[5].style.display = "";
-        rightArrow.style.pointerEvents = "";
+        images[4].style.display = "";
+        /* reactivation du bouton fleche droite quand arrivé au bout de la liste */
+        rightArrow.style.pointerEvents = "auto";
         rightArrow.style.opacity = "0.4";
-
-    } else {
-        if (!images[1].style.display) {
-            images[1].style.display = "none";
-            images[6].style.display = "";
-            leftArrow.style.pointerEvents = "none";
-            leftArrow.style.opacity = "0.1";
-        }
+    } else if (!images[1].style.display) {
+        images[1].style.display = "none";
+        images[5].style.display = "";
+    } else if (!images[2].style.display) {
+        images[2].style.display = "none";
+        images[6].style.display = "";
+        /* desactivation du bouton fleche gauche quand arrivé au bout de la liste */
+        leftArrow.style.pointerEvents = "none";
+        leftArrow.style.opacity = "0.1";
     }
 }
 
@@ -210,23 +232,28 @@ function carouselRight(gender) {
     let rightArrow = document.getElementById(gender + "-right");
     if (!images[6].style.display) {
         images[6].style.display = "none";
-        images[1].style.display = "";
-        leftArrow.style.pointerEvents = "";
+        images[2].style.display = "";
+        /* reactivation du bouton fleche gauche quand arrivé au bout de la liste */
+        leftArrow.style.pointerEvents = "auto";
         leftArrow.style.opacity = "0.4";
-    } else {
-        if (!images[5].style.display) {
-            images[5].style.display = "none";
-            images[0].style.display = "";
-            rightArrow.style.pointerEvents = "none";
-            rightArrow.style.opacity = "0.1";
-        }
+    } else if (!images[5].style.display) {
+        images[5].style.display = "none";
+        images[1].style.display = "";
+    } else if (!images[4].style.display) {
+        images[4].style.display = "none";
+        images[0].style.display = "";
+        /* desactivation du bouton fleche droite quand arrivé au bout de la liste */
+        rightArrow.style.pointerEvents = "none";
+        rightArrow.style.opacity = "0.1";
     }
 }
 
 
 window.addEventListener('load', () => {
+    
     /* execution à l'ouverture ou rafraichissement de la page index */
     extractDataBestMovie();
+    extractDataMovies("Best");
     extractDataMovies("Thriller");
     extractDataMovies("Horror");
     extractDataMovies("Comedy");
