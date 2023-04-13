@@ -1,5 +1,5 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
-let modal = null;
+// let modal = null;
 
 async function extractDataBestMovie() {
 
@@ -42,15 +42,21 @@ async function extractDataMovies(gender) {
 }
 
 function createNewSection(moviesUrls, gender) {
+    
+    /* creation des sections avec carousel */
+    
     let body = document.body;
+
     /* creation d'une nouvelle section */
     let newSection = document.createElement("section");
     newSection.setAttribute("class", "section_cat");
+    newSection.setAttribute("id", gender);
     body.appendChild(newSection);
     
     /* creation du titre */
     let title = document.createElement("h1");
     title.setAttribute("class", gender);
+    // title.setAttribute("id", gender);
     title.style.fontFamily = gender;
     title.textContent = gender;
     newSection.appendChild(title);
@@ -69,12 +75,18 @@ function createNewSection(moviesUrls, gender) {
     let leftArrow = document.createElement("img");
     leftArrow.setAttribute("src", "./images/fleche-gauche.png");
     leftArrow.setAttribute("class", "carousel-button");
-    leftArrow.setAttribute("id", "left");
+    leftArrow.setAttribute("id", gender + "-left");
+    leftArrow.style.float = "left";
+    leftArrow.setAttribute("onclick", 'carouselLeft("' + gender + '")');
     container.appendChild(leftArrow);
     let rightArrow = document.createElement("img");
     rightArrow.setAttribute("src", "./images/fleche-droite.png");
     rightArrow.setAttribute("class", "carousel-button");
-    rightArrow.setAttribute("id", "right");
+    rightArrow.setAttribute("id", gender + "-right");
+    rightArrow.style.float= "right";
+    rightArrow.setAttribute("onclick", 'carouselRight("' + gender + '")');
+    rightArrow.style.pointerEvents = "none";
+    rightArrow.style.opacity = "0.15";
     container.appendChild(rightArrow);
 
     /* creation des images */
@@ -83,8 +95,9 @@ function createNewSection(moviesUrls, gender) {
         newImg.setAttribute("src", movieUrl.image_url);
         newImg.setAttribute("class", "cover");
         newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
-        newImg.setAttribute("id", index + 1);
-        if ((index + 1) > 4) {
+        newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
+        newImg.setAttribute("style", "display: null;");
+        if ((index + 1) > 5) {
             newImg.style.display = "none";
         }
         container.appendChild(newImg);
@@ -107,6 +120,8 @@ async function createMovieObjModal(movieId) {
         .then(response => response.json())
         .then((movieImdb_UrlJson) => {
             let movieObj = new Object();
+
+            /* récupération de tous les attributs */
             movieObj.id = movieImdb_UrlJson["id"];
             movieObj.image_url = movieImdb_UrlJson["image_url"];
             movieObj.title = movieImdb_UrlJson["title"];
@@ -126,6 +141,8 @@ async function createMovieObjModal(movieId) {
 
 async function openModal(movieId) {
     const modal = document.getElementById("modal");
+
+    /* recuperation de chaque elements du DOM */
     let movieTitleModal = document.getElementById("modal-title");
     let movieImgModal = document.getElementById("modal-cover");
     let movieGenre = document.getElementById("modal-genre");
@@ -139,8 +156,10 @@ async function openModal(movieId) {
     let movieWorldwideGrossIncome = document.getElementById("modal-worldwide-gross-income");
     let movieDescription = document.getElementById("modal-description");
 
+    /* creation de l'objet film */
     movieModal = await createMovieObjModal(movieId);
     
+    /* 'remplissage des champs du modal */
     movieImgModal.src = movieModal.image_url;
     movieTitleModal.innerHTML = movieModal.title;
     movieGenre.innerHTML = movieModal.genres;
@@ -154,15 +173,59 @@ async function openModal(movieId) {
     movieWorldwideGrossIncome.innerHTML = movieModal.worldwide_gross_income;
     movieDescription.innerHTML = movieModal.description;
 
+    /* affichage du modal */
     modal.style.display = null;
 }
 
 function closeModal() {
+
+    /* faire disparaitre le modal */
     const modal = document.getElementById("modal");
     modal.style.display = "none";
 }
 
+function carouselLeft(gender) {
+    let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
+    let leftArrow = document.getElementById(gender + "-left");
+    let rightArrow = document.getElementById(gender + "-right");
+    if (!images[0].style.display) {
+        images[0].style.display = "none";
+        images[5].style.display = "";
+        rightArrow.style.pointerEvents = "";
+        rightArrow.style.opacity = "0.4";
+
+    } else {
+        if (!images[1].style.display) {
+            images[1].style.display = "none";
+            images[6].style.display = "";
+            leftArrow.style.pointerEvents = "none";
+            leftArrow.style.opacity = "0.1";
+        }
+    }
+}
+
+function carouselRight(gender) {
+    let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
+    let leftArrow = document.getElementById(gender + "-left");
+    let rightArrow = document.getElementById(gender + "-right");
+    if (!images[6].style.display) {
+        images[6].style.display = "none";
+        images[1].style.display = "";
+        leftArrow.style.pointerEvents = "";
+        leftArrow.style.opacity = "0.4";
+    } else {
+        if (!images[5].style.display) {
+            images[5].style.display = "none";
+            images[0].style.display = "";
+            rightArrow.style.pointerEvents = "none";
+            rightArrow.style.opacity = "0.1";
+        }
+    }
+}
+
+
 window.addEventListener('load', () => {
+    /* execution à l'ouverture ou rafraichissement de la page index */
     extractDataBestMovie();
     extractDataMovies("Thriller");
     extractDataMovies("Horror");
