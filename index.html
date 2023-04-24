@@ -13,9 +13,9 @@
 
         <header>
             <nav>
-                <img src="images/logo.png" class="img-logo" alt="JustStreamIt">
+                <img src="images/logo.png" class="img-logo" alt="JustStreamIt-image">
                 <div>
-                    <a href="#Best" style="font-family: Best;">TOP</a>
+                    <a href="#Best" style="font-family: Best;">TOP des films</a>
                     <a href="#Horror" style="font-family: Horror;">Horreur</a>
                     <a href="#Thriller" style="font-family: Thriller;">Thriller</a>
                     <a href="#Comedy" style="font-family: Comedy;">Comedie</a>
@@ -109,10 +109,10 @@
         </section>
 
         <section class="modal" id="modal" style="display:none;" onclick="closeModal()">
-            <div class="modal-content" onclick="">
-                <span class="modal-close" id="modal-close">&times;</span>
+            <div class="modal-content" id="modal-content" onclick="event.stopPropagation()">
+                <span class="modal-close" id="modal-close" onclick="closeModal()">&times;</span>
                 <img src="images/white.PNG" class="modal-cover" id="modal-cover" alt="modal-cover">
-                <h1 id="modal-title"></h1><br>
+                <h3 id="modal-title"></h3>
                 <div class="modal-infos">Genre :
                     <span class="modal-infos-description" id="modal-genre"></span>
                 </div>

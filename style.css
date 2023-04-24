@@ -3,7 +3,7 @@ header {
     color: white;
     padding: 20px 50px;
     border-radius: 30px;
-    box-shadow: 0 0 14px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 28px rgba(0, 0, 0);
 }
 
 nav {
@@ -24,11 +24,14 @@ nav a {
 img {
     border-radius: 30px;
     transition: transform 0.5s;
-    box-shadow: 0 0 14px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 28px rgba(0, 0, 0);
 }   
 
 .img-logo {
     box-shadow: none;
+    width: 25%;
+    height: 25%;
+
 }
 
 h1 {
@@ -39,6 +42,19 @@ h1 {
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+}
+
+.best-movie-summary {
+    font-size: 20px;
+}
 .best-movie {
     /* cadre noir autour du film du moment */
     border-right: 4px solid black;
@@ -52,7 +68,7 @@ h1 {
     /* espacement bords du cadre */
     padding: 10px 50px 250px 50px;
     background-color: rgb(117, 17, 17);
-    box-shadow: 0 0 14px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 28px rgba(0, 0, 0);
 }
 
 #best-cover {
@@ -97,11 +113,11 @@ h1 {
     /* espacement interieur */
     padding: 10px 50px 50px 50px;
     background-color: rgb(117, 17, 17);
-    box-shadow: 0 0 14px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 28px rgba(0, 0, 0);
 }
 
 .modal {
-    z-index: 1000;
+    z-index: 1001;
     position: fixed;
     display: flex;
     align-items: center;
@@ -114,6 +130,7 @@ h1 {
 }
 
 .modal-content {
+    z-index: 1000;
     border-radius: 20px;
     overflow: auto;
     width: 800px;
@@ -176,7 +193,7 @@ h1 {
     width: auto;
     height: 370px;
     border: solid 4px rgb(160, 99, 99);
-    box-shadow: 0 0 14px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 28px rgba(0, 0, 0);
     border-radius: 30px;
     background-color: rgb(167, 214, 223);
 }

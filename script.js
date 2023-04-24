@@ -69,13 +69,7 @@ function createNewSection(moviesUrls, gender) {
     let heightArrow = rightArrow.clientHeight;
     leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
     rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
-
-    /* relevé de l'état des flèches */
-    leftArrowState = document.getElementById("left");
-    rightArrowState = document.getElementById("right");
-
 };
-
 
 async function createMovieObjModal(movieId) {
     return fetch(`http://localhost:8000/api/v1/titles/${movieId}`)
@@ -138,15 +132,14 @@ async function openModal(movieId) {
     /* affichage du modal */
     modal.style.display = null;
 }
+
 function closeModal() {
-    
     /* faire disparaitre le modal */
     const modal = document.getElementById("modal");
     modal.style.display = "none";
 }
 
 function carouselRight(gender) {
-    console.log("Genre", gender);
     let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
     let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
@@ -189,7 +182,6 @@ function carouselLeft(gender) {
         leftArrow.style.opacity = "0.1";
     }
 }
-
 
 window.addEventListener('load', () => {
     
