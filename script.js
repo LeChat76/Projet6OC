@@ -36,9 +36,6 @@ async function extractDataMovies(gender) {
     let moviesImgUrls = new Array();
     const movies = await fetch(reqUrl)
         .then(response => response.json())
-        .catch(function(error) {
-            console.log("Fetch_Error : " + error + "/ (i=" + i + ")")
-        })
         if (gender == "Best") {
             for (let i=1; i<8; i++) {
                 movieImgUrl = await createMovieObject(movies["results"][i]);
@@ -50,91 +47,35 @@ async function extractDataMovies(gender) {
                 moviesImgUrls.push(movieImgUrl);
             }
         }
-        if (gender == "Best") {
-            createNewSection(moviesImgUrls, "Best");
-        } else {
-            createNewSection(moviesImgUrls, gender);
-        }
+
+        createNewSection(moviesImgUrls, gender);
 }
 
 function createNewSection(moviesUrls, gender) {
-    
-    /* creation des sections avec carousel */
-    let body = document.body;
 
-    /* creation d'une nouvelle section */
-    let newSection = document.createElement("section");
-    newSection.setAttribute("class", "section_cat");
-    newSection.setAttribute("id", gender);
-    body.appendChild(newSection);
-
-    /* creation du titre */
-    let title = document.createElement("h1");
-    title.setAttribute("class", gender);
-    title.style.fontFamily = gender;
-    if (gender == "Best") {
-        title.textContent = "Meilleur classement";
-    } else {
-        title.textContent = gender;
-    }
-    newSection.appendChild(title);
-
-    /* creation du div carousel dans la nouvelle section */
-    let carouselDiv = document.createElement("div");
-    carouselDiv.setAttribute("id", "carousel");
-    newSection.appendChild(carouselDiv);
-
-    /* creation du div container dans le div carousel */
-    let container = document.createElement("div");
-    container.setAttribute("id", "container");
-    carouselDiv.appendChild(container);
-
-    /* creation du bouton gauche du carousel */
-    let leftArrow = document.createElement("img");
-    leftArrow.setAttribute("src", "./images/fleche-gauche.png");
-    leftArrow.setAttribute("class", "carousel-button");
-    leftArrow.setAttribute("id", gender + "-left");
-    leftArrow.style.float = "left";
-    leftArrow.setAttribute("onclick", 'carouselLeft("' + gender + '")');
-    leftArrow.style.pointerEvents = "none";
-    leftArrow.style.opacity = "0.15";
-    container.appendChild(leftArrow);
-    
     /* creation des images */
     moviesUrls.forEach((movieUrl, index) => {
-        newImg = document.createElement("img");
+        let newImg = document.getElementById("img-" + gender + "-" + (index + 1));
         newImg.setAttribute("src", movieUrl.image_url);
-        newImg.setAttribute("class", "cover");
         newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
-        newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
-        newImg.setAttribute("style", "display: null;");
         newImg.setAttribute("title", movieUrl.title + " (cliquez moi pour infos)");
-        if ((index + 1) > 4) {
-            newImg.style.display = "none";
-        }
-        container.appendChild(newImg);
     });
 
-    /* creation du bouton droit du carousel */
-    let rightArrow = document.createElement("img");
-    rightArrow.setAttribute("src", "./images/fleche-droite.png");
-    rightArrow.setAttribute("class", "carousel-button");
-    rightArrow.setAttribute("id", gender + "-right");
-    rightArrow.style.float= "right";
-    rightArrow.setAttribute("onclick", 'carouselRight("' + gender + '")');
-    container.appendChild(rightArrow);
+    let rightArrow = document.getElementById(gender + "-right");
+    let leftArrow = document.getElementById(gender + "-left");
 
     /* modification du positionnement des boutons en fonctions de la taille de la section */
     let heightContainer = container.clientHeight;
     let heightArrow = rightArrow.clientHeight;
     leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
     rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
-    
+
     /* relevé de l'état des flèches */
     leftArrowState = document.getElementById("left");
     rightArrowState = document.getElementById("right");
 
 };
+
 
 async function createMovieObjModal(movieId) {
     return fetch(`http://localhost:8000/api/v1/titles/${movieId}`)
@@ -205,6 +146,7 @@ function closeModal() {
 }
 
 function carouselRight(gender) {
+    console.log("Genre", gender);
     let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
     let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
@@ -254,7 +196,7 @@ window.addEventListener('load', () => {
     /* execution à l'ouverture ou rafraichissement de la page index */
     extractDataBestMovie();
     extractDataMovies("Best");
-    extractDataMovies("Thriller");
     extractDataMovies("Horror");
+    extractDataMovies("Thriller");
     extractDataMovies("Comedy");
 });
