@@ -1,5 +1,22 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
 
+const imgContainer = document.getElementById("container2");
+const cover = document.querySelector(".cover");
+const bestLeft = document.getElementById("Best-left");
+const bestRight = document.getElementById("Best-right");
+
+bestLeft.addEventListener("click", () => {
+    const slideWidth = cover.clientWidth;
+    imgContainer.scrollLeft -= (slideWidth +40);
+    console.log(imgContainer.scrollLeft);
+})
+
+bestRight.addEventListener("click", () => {
+    const slideWidth = cover.clientWidth;
+    imgContainer.scrollLeft += (slideWidth + 40);
+    console.log(imgContainer.scrollLeft);
+})
+
 async function extractDataBestMovie() {
 
     let bestMovieTitle = document.getElementById('best-movie-title');
