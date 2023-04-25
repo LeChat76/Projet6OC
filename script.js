@@ -1,21 +1,7 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
-
-const imgContainer = document.getElementById("container2");
-const cover = document.querySelector(".cover");
-const bestLeft = document.getElementById("Best-left");
-const bestRight = document.getElementById("Best-right");
-
-bestLeft.addEventListener("click", () => {
-    const slideWidth = cover.clientWidth;
-    imgContainer.scrollLeft -= (slideWidth +40);
-    console.log(imgContainer.scrollLeft);
-})
-
-bestRight.addEventListener("click", () => {
-    const slideWidth = cover.clientWidth;
-    imgContainer.scrollLeft += (slideWidth + 40);
-    console.log(imgContainer.scrollLeft);
-})
+const coverWidth = 210;
+const coverMaxScrollLeft = 700;
+const coverMinScrollLeft = 250;
 
 async function extractDataBestMovie() {
 
@@ -33,7 +19,6 @@ async function extractDataBestMovie() {
         bestMovieImg.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
         bestMovieImg.setAttribute("title", bestMovie.title + " (cliquez moi pour infos)")
         bestMovieButton.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
-
 }
 
 async function createMovieObject(movie) {
@@ -65,7 +50,7 @@ async function extractDataMovies(gender) {
             }
         }
 
-        createNewSection(moviesImgUrls, gender);
+        createDivImg(moviesImgUrls, gender);
 }
 
 function createNewSection(moviesUrls, gender) {
@@ -87,6 +72,33 @@ function createNewSection(moviesUrls, gender) {
     leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
     rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
 };
+
+function createDivImg(moviesUrls, gender) {
+
+    let containerDiv = document.getElementById("container-" + gender);
+
+    /* creation des img */
+    moviesUrls.forEach((movieUrl, index) => {
+        newImg = document.createElement("img");
+        newImg.setAttribute("src", movieUrl.image_url);
+        newImg.setAttribute("class", "cover");
+        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
+        newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
+        newImg.setAttribute("style", "display: null;");
+        newImg.setAttribute("title", movieUrl.title + " (cliquez moi pour infos)");
+        containerDiv.appendChild(newImg);
+    });
+
+    let rightArrow = document.getElementById(gender + "-right");
+    let leftArrow = document.getElementById(gender + "-left");
+
+    /* modification du positionnement des boutons en fonctions de la taille de la section */
+    let heightContainer = container.clientHeight;
+    let heightArrow = rightArrow.clientHeight;
+    leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
+    rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
+};
+
 
 async function createMovieObjModal(movieId) {
     return fetch(`http://localhost:8000/api/v1/titles/${movieId}`)
@@ -157,44 +169,34 @@ function closeModal() {
 }
 
 function carouselRight(gender) {
-    let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
+    let imgContainer = document.getElementById("container-" + gender);
     let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
-    if (!images[0].style.display) {
-        images[0].style.display = "none";
-        images[4].style.display = "";
-        /* reactivation du bouton fleche gauche quand arrivé au bout de la liste */
-        leftArrow.style.pointerEvents = "auto";
-        leftArrow.style.opacity = "0.4";
-    } else if (!images[1].style.display) {
-        images[1].style.display = "none";
-        images[5].style.display = "";
-    } else if (!images[2].style.display) {
-        images[2].style.display = "none";
-        images[6].style.display = "";
-        /* desactivation du bouton fleche droite quand arrivé au bout de la liste */
+    leftArrow.style.pointerEvents = "auto";
+    leftArrow.style.opacity = "0.4";
+
+    imgContainer.scrollLeft += (coverWidth + 40);
+
+    /* desactivation du bouton fleche droite quand arrivé a la derniere image */
+    if (imgContainer.scrollLeft >= coverMaxScrollLeft) {
+        console.log("imgContainer.scrollLeft : ", imgContainer.scrollLeft);
         rightArrow.style.pointerEvents = "none";
         rightArrow.style.opacity = "0.1";
     }
 }
 
 function carouselLeft(gender) {
-    let images = document.getElementById(gender).querySelectorAll(`[id^="img-"]`);
+    let imgContainer = document.getElementById("container-" + gender);
     let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
-    if (!images[6].style.display) {
-        images[6].style.display = "none";
-        images[2].style.display = "";
-        /* reactivation du bouton fleche droite quand arrivé au bout de la liste */
-        rightArrow.style.pointerEvents = "auto";
-        rightArrow.style.opacity = "0.4";
-    } else if (!images[5].style.display) {
-        images[5].style.display = "none";
-        images[1].style.display = "";
-    } else if (!images[4].style.display) {
-        images[4].style.display = "none";
-        images[0].style.display = "";
-        /* desactivation du bouton fleche gauche quand arrivé au bout de la liste */
+    rightArrow.style.pointerEvents = "auto";
+    rightArrow.style.opacity = "0.4";
+
+    imgContainer.scrollLeft -= (coverWidth + 40);
+
+    /* desactivation du bouton fleche gauche quand arrivé au a la premiere image */
+    if (imgContainer.scrollLeft <= coverMinScrollLeft) {
+        console.log("imgContainer.scrollLeft : ", imgContainer.scrollLeft);
         leftArrow.style.pointerEvents = "none";
         leftArrow.style.opacity = "0.1";
     }
