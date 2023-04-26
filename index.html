@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>justStreamIt</title>  
-    <link rel=stylesheet href=style.css />
+    <link rel=stylesheet href="style.css">
+    <script src=script.js></script>
 </head>
 
     <body>
@@ -13,10 +14,10 @@
             <nav>
                 <img src="images/logo.png" onDragStart="return false" class="img-logo" alt="JustStreamIt-image">
                 <div>
-                    <a href="#Best" style="font-family: Best;">TOP des films</a>
-                    <a href="#Horror" style="font-family: Horror;">Horreur</a>
-                    <a href="#Thriller" style="font-family: Thriller;">Thriller</a>
-                    <a href="#Comedy" style="font-family: Comedy;">Comedie</a>
+                    <a href="#Best" style="font-family: Best;" onDragStart="return false">TOP des films</a>
+                    <a href="#Horror" style="font-family: Horror;" onDragStart="return false">Horreur</a>
+                    <a href="#Thriller" style="font-family: Thriller;" onDragStart="return false">Thriller</a>
+                    <a href="#Comedy" style="font-family: Comedy;" onDragStart="return false">Comedie</a>
                 </div>
             </nav>
         </header>
@@ -27,7 +28,7 @@
             </div>            
             <h1>Meilleur film!</h1>
             <div class="best-movie-title">
-                <h2 id="best-movie-title"></h2>
+                <h2 id="best-movie-title">Meilleur film</h2>
             </div>
             <div class="best-movie-summary">
                 <p></p>            
@@ -39,45 +40,45 @@
 
         <section class="section_cat" id="Best">
             <h1 class="Best" style="font-family: Best;">Films les mieux notés</h1>
-            <div id="carousel">
-                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button" id="Best-left" style="float: left; pointer-events: none; opacity: 0.15; margin-top: 130px;" onclick='carouselLeft("Best")'>
-                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button" id="Best-right" style="float: right; margin-top: 130px;" onclick='carouselRight("Best")'>
+            <div class="carousel">
+                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button-left" id="Best-left" alt="carousel-bouton-gauche" onclick='carouselLeft("Best")'>
+                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button-right" id="Best-right" alt="carousel-bouton-droit" onclick='carouselRight("Best")'>
                 <div class="container" id="container-Best"></div>
             </div>
         </section>
 
         <section class="section_cat" id="Horror">
             <h1 class="Horror" style="font-family: Horror;">Les meilleurs films d'horreur</h1>
-            <div id="carousel">
-                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button" id="Horror-left" style="float: left; pointer-events: none; opacity: 0.15; margin-top: 130px;" onclick='carouselLeft("Horror")'>
-                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button" id="Horror-right" style="float: right; margin-top: 130px;" onclick='carouselRight("Horror")'>
+            <div class="carousel">
+                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button-left" id="Horror-left" alt="carousel-bouton-gauche" onclick='carouselLeft("Horror")'>
+                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button-right" id="Horror-right" alt="carousel-bouton-droit" onclick='carouselRight("Horror")'>
                 <div class="container" id="container-Horror"></div>
             </div>
         </section>
 
         <section class="section_cat" id="Thriller">
             <h1 class="Thriller" style="font-family: Thriller;">Les meilleurs thrillers</h1>
-            <div id="carousel">
-                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button" id="Thriller-left" style="float: left; pointer-events: none; opacity: 0.15; margin-top: 130px;" onclick='carouselLeft("Thriller")'>
-                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button" id="Thriller-right" style="float: right; margin-top: 130px;" onclick='carouselRight("Thriller")'>
+            <div class="carousel">
+                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button-left" id="Thriller-left" alt="carousel-bouton-gauche" onclick='carouselLeft("Thriller")'>
+                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button-right" id="Thriller-right" alt="carousel-bouton-droit" onclick='carouselRight("Thriller")'>
                 <div class="container" id="container-Thriller"></div>
             </div>
         </section>
 
         <section class="section_cat" id="Comedy">
             <h1 class="Comedy" style="font-family: Comedy;">Les meilleurs comedies</h1>
-            <div id="carousel">
-                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button" id="Comedy-left" style="float: left; pointer-events: none; opacity: 0.15; margin-top: 130px;" onclick='carouselLeft("Comedy")'>
-                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button" id="Comedy-right" style="float: right; margin-top: 130px;" onclick='carouselRight("Comedy")'>
+            <div class="carousel">
+                <img src="./images/fleche-gauche.png" onDragStart="return false" class="carousel-button-left" id="Comedy-left" alt="carousel-bouton-gauche" onclick='carouselLeft("Comedy")'>
+                <img src="./images/fleche-droite.png" onDragStart="return false" class="carousel-button-right" id="Comedy-right" alt="carousel-bouton-droit" onclick='carouselRight("Comedy")'>
                 <div class="container" id="container-Comedy"></div>
             </div>
         </section>
 
-        <section class="modal" id="modal" style="display:none;" onclick="closeModal()">
+        <div class="modal" id="modal" style="display:none;" onclick="closeModal()">
             <div class="modal-content" id="modal-content" onclick="event.stopPropagation()">
                 <span class="modal-close" id="modal-close" onclick="closeModal()">&times;</span>
                 <img src="images/white.PNG" onDragStart="return false" class="modal-cover" id="modal-cover" alt="modal-cover">
-                <h3 id="modal-title"></h3>
+                <h3 id="modal-title">Titre du modal</h3>
                 <div class="modal-infos">Genre :
                     <span class="modal-infos-description" id="modal-genre"></span>
                 </div>
@@ -109,10 +110,18 @@
                     <span class="modal-infos-description" id="modal-description"></span>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <footer>
+            <nav>
+                <img src="images/logo.png" onDragStart="return false" class="img-logo" alt="Copyright">
+                <div>
+                    <a>Copyright :</a>
+                    <a href="mailto:cedric.delauney@gmail.com?subject=J adore votre site!" id="mailTo" onDragStart="return false">Cedric Delauney</a>
+                </div>
+            </nav>
+        </footer>
 
     </body>
-
-    <script src="script.js"></script>
 
 </html>

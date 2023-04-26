@@ -1,5 +1,7 @@
-const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
-const coverWidth = 210;
+const BASE_URL = "http://localhost:8000/api/v1/titles"
+const BASE_URL_BY_SCORE = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
+const COVER_WIDTH = 210;
+
 setInterval(extractDataBestMovie, 10000);
 setInterval(extractDataMovies, 10000, "Best");
 setInterval(extractDataMovies, 10000, "Horror");
@@ -13,9 +15,9 @@ async function extractDataBestMovie() {
     let bestMovieDescription = document.getElementsByClassName('best-movie-summary')[0].getElementsByTagName("p")[0];
     let bestMovieButton = document.getElementById("bestMovieButton");
 
-    const bestMovies = await fetch(baseUrl)
+    let bestMovies = await fetch(BASE_URL_BY_SCORE)
         .then(response => response.json())
-        bestMovie = await createMovieObjModal(bestMovies["results"][0]["id"]);
+        bestMovie = await getMovieInfos(bestMovies["results"][0]["id"]);
         bestMovieTitle.innerHTML = bestMovie.title;
         bestMovieImg.src = bestMovie.image_url;
         bestMovieImg.setAttribute("onDragStart", "return false");
@@ -35,23 +37,22 @@ async function createMovieObject(movie) {
 
 async function extractDataMovies(gender) {
     if (gender == "Best") {
-        reqUrl = baseUrl + "&page_size=8"
+        reqUrl = BASE_URL_BY_SCORE + "&page_size=8"
     } else {
-        reqUrl = baseUrl + "&genre_contains=" + gender + "&page_size=7";
+        reqUrl = BASE_URL_BY_SCORE + "&genre_contains=" + gender + "&page_size=7";
     }
     let moviesImgUrls = new Array();
-    const movies = await fetch(reqUrl)
+    let movies = await fetch(reqUrl)
         .then(response => response.json())
+        var minImg = 0;
+        var maxImg = 7;
         if (gender == "Best") {
-            for (let i=1; i<8; i++) {
-                movieImgUrl = await createMovieObject(movies["results"][i]);
-                moviesImgUrls.push(movieImgUrl);
-            }
-        } else {
-            for (let i=0; i<7; i++) {
-                movieImgUrl = await createMovieObject(movies["results"][i]);
-                moviesImgUrls.push(movieImgUrl);
-            }
+            var minImg = 1;
+            var maxImg = 8;
+        }
+        for (let i=minImg; i<maxImg; i++) {
+            movieImgUrl = await createMovieObject(movies["results"][i]);
+            moviesImgUrls.push(movieImgUrl);
         }
 
         createDivImg(moviesImgUrls, gender);
@@ -59,11 +60,10 @@ async function extractDataMovies(gender) {
 
 function createDivImg(moviesUrls, gender) {
 
-    const containerDiv = document.getElementById("container-" + gender);
+    let containerDiv = document.getElementById("container-" + gender);
+    containerDiv.innerHTML = "";
 
-    if (containerDiv) {
-        containerDiv.innerHTML = "";
-    }
+    console.log("Declenchement setInterval : " + gender);
 
     /* creation des img */
     moviesUrls.forEach((movieUrl, index) => {
@@ -84,14 +84,13 @@ function createDivImg(moviesUrls, gender) {
     /* modification du positionnement des boutons en fonctions de la taille de la section */
     let heightContainer = containerDiv.clientHeight;
     let heightArrow = rightArrow.clientHeight;
-    leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
-    rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
-
+    leftArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
+    rightArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
 };
 
 
-async function createMovieObjModal(movieId) {
-    return fetch(`http://localhost:8000/api/v1/titles/${movieId}`)
+async function getMovieInfos(movieId) {
+    return fetch(`${BASE_URL}/${movieId}`)
         .then(response => response.json())
         .then((movieImdb_UrlJson) => {
             let movieObj = new Object();
@@ -115,7 +114,7 @@ async function createMovieObjModal(movieId) {
 }
 
 async function openModal(movieId) {
-    const modal = document.getElementById("modal");
+    let modal = document.getElementById("modal");
     
     /* recuperation de chaque elements du DOM */
     let movieTitleModal = document.getElementById("modal-title");
@@ -132,7 +131,7 @@ async function openModal(movieId) {
     let movieDescription = document.getElementById("modal-description");
     
     /* creation de l'objet film */
-    movieModal = await createMovieObjModal(movieId);
+    movieModal = await getMovieInfos(movieId);
     
     /* 'remplissage des champs du modal */
     movieImgModal.src = movieModal.image_url;
@@ -154,7 +153,7 @@ async function openModal(movieId) {
 
 function closeModal() {
     /* faire disparaitre le modal */
-    const modal = document.getElementById("modal");
+    let modal = document.getElementById("modal");
     modal.style.display = "none";
 }
 
@@ -164,7 +163,7 @@ function carouselRight(gender) {
     // let rightArrow = document.getElementById(gender + "-right");
     leftArrow.style.pointerEvents = "auto";
     leftArrow.style.opacity = "0.4";
-    imgContainer.scrollLeft += (coverWidth + 40);
+    imgContainer.scrollLeft += (COVER_WIDTH + 40);
 
     // if (imgContainer.scrollLeft == oldPos) {
     //     rightArrow.style.pointerEvents = "none";
@@ -178,7 +177,7 @@ function carouselLeft(gender) {
     let rightArrow = document.getElementById(gender + "-right");
     rightArrow.style.pointerEvents = "auto";
     rightArrow.style.opacity = "0.4";
-    imgContainer.scrollLeft -= (coverWidth + 40);
+    imgContainer.scrollLeft -= (COVER_WIDTH + 40);
 }
 
 window.addEventListener('load', () => {
