@@ -73,7 +73,7 @@ function createDivImg(moviesUrls, gender) {
         newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
         newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
         newImg.setAttribute("style", "display: null;");
-        newImg.setAttribute("title", movieUrl.title + " (cliquez moi pour infos)");
+        newImg.setAttribute("title", movieUrl.title + " (cliquez pour infos)");
         newImg.setAttribute("onDragStart", "return false");
         containerDiv.appendChild(newImg);
     });
@@ -81,7 +81,7 @@ function createDivImg(moviesUrls, gender) {
     let rightArrow = document.getElementById(gender + "-right");
     let leftArrow = document.getElementById(gender + "-left");
 
-    /* modification du positionnement des boutons en fonctions de la taille de la section */
+    /* positionnement auto des boutons en fonctions de taille de la section */
     let heightContainer = containerDiv.clientHeight;
     let heightArrow = rightArrow.clientHeight;
     leftArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
@@ -115,7 +115,7 @@ async function getMovieInfos(movieId) {
 
 async function openModal(movieId) {
     let modal = document.getElementById("modal");
-    
+
     /* recuperation de chaque elements du DOM */
     let movieTitleModal = document.getElementById("modal-title");
     let movieImgModal = document.getElementById("modal-cover");
@@ -129,10 +129,10 @@ async function openModal(movieId) {
     let movieCountries = document.getElementById("modal-countries");
     let movieWorldwideGrossIncome = document.getElementById("modal-worldwide-gross-income");
     let movieDescription = document.getElementById("modal-description");
-    
+
     /* creation de l'objet film */
     movieModal = await getMovieInfos(movieId);
-    
+
     /* 'remplissage des champs du modal */
     movieImgModal.src = movieModal.image_url;
     movieTitleModal.innerHTML = movieModal.title;
@@ -146,7 +146,7 @@ async function openModal(movieId) {
     movieCountries.innerHTML = movieModal.countries;
     movieWorldwideGrossIncome.innerHTML = movieModal.worldwide_gross_income;
     movieDescription.innerHTML = movieModal.description;
-    
+
     /* affichage du modal */
     modal.style.display = null;
 }
@@ -164,11 +164,6 @@ function carouselRight(gender) {
     leftArrow.style.pointerEvents = "auto";
     leftArrow.style.opacity = "0.4";
     imgContainer.scrollLeft += (COVER_WIDTH + 40);
-
-    // if (imgContainer.scrollLeft == oldPos) {
-    //     rightArrow.style.pointerEvents = "none";
-    //     rightArrow.style.opacity = "0.1";
-    // }
 }
 
 function carouselLeft(gender) {
