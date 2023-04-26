@@ -63,7 +63,7 @@ function createDivImg(moviesUrls, gender) {
     let containerDiv = document.getElementById("container-" + gender);
     containerDiv.innerHTML = "";
 
-    console.log("Declenchement setInterval : " + gender);
+    // console.log("Declenchement setInterval : " + gender);
 
     /* creation des img */
     moviesUrls.forEach((movieUrl, index) => {
