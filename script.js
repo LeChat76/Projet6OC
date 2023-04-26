@@ -1,10 +1,10 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
 const coverWidth = 210;
-setInterval(extractDataBestMovie, 5000);
-setInterval(extractDataMovies, 5000, "Best");
-setInterval(extractDataMovies, 5000, "Horror");
-setInterval(extractDataMovies, 5000, "Thriller");
-setInterval(extractDataMovies, 5000, "Comedy");
+setInterval(extractDataBestMovie, 10000);
+setInterval(extractDataMovies, 10000, "Best");
+setInterval(extractDataMovies, 10000, "Horror");
+setInterval(extractDataMovies, 10000, "Thriller");
+setInterval(extractDataMovies, 10000, "Comedy");
 
 async function extractDataBestMovie() {
 
@@ -63,8 +63,6 @@ function createDivImg(moviesUrls, gender) {
     if (containerDiv) {
         containerDiv.innerHTML = "";
     }
-
-    console.log ("containerDiv : ", containerDiv);
 
     /* creation des img */
     moviesUrls.forEach((movieUrl, index) => {
