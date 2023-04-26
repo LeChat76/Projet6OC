@@ -24,5 +24,5 @@ Launch "index.html" from "Projet6OC" folder on your favorite web navigator.
 ```sh
 - for HTML : https://validator.w3.org/#validate_by_upload
 - for CSS : https://jigsaw.w3.org/css-validator/
-- for JS : 
+- for JS : https://www.jslint.com/
 ```

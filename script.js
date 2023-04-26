@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost:8000/api/v1/titles"
-const BASE_URL_BY_SCORE = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
+const BASE_URL = "http://localhost:8000/api/v1/titles";
+const BASE_URL_BY_SCORE = BASE_URL + "/?sort_by=-imdb_score";
 const COVER_WIDTH = 210;
 
 setInterval(extractDataBestMovie, 10000);
@@ -10,9 +10,9 @@ setInterval(extractDataMovies, 10000, "Comedy");
 
 async function extractDataBestMovie() {
 
-    let bestMovieTitle = document.getElementById('best-movie-title');
-    let bestMovieImg = document.getElementsByClassName('best-cover')[0].getElementsByTagName("img")[0];
-    let bestMovieDescription = document.getElementsByClassName('best-movie-summary')[0].getElementsByTagName("p")[0];
+    let bestMovieTitle = document.getElementById("best-movie-title");
+    let bestMovieImg = document.getElementsByClassName("best-cover")[0].getElementsByTagName("img")[0];
+    let bestMovieDescription = document.getElementsByClassName("best-movie-summary")[0].getElementsByTagName("p")[0];
     let bestMovieButton = document.getElementById("bestMovieButton");
 
     let bestMovies = await fetch(BASE_URL_BY_SCORE)
@@ -94,7 +94,7 @@ async function getMovieInfos(movieId) {
         .then(response => response.json())
         .then((movieImdb_UrlJson) => {
             let movieObj = new Object();
-            
+
             /* récupération de tous les attributs */
             movieObj.id = movieImdb_UrlJson["id"];
             movieObj.image_url = movieImdb_UrlJson["image_url"];
@@ -180,8 +180,8 @@ function carouselLeft(gender) {
     imgContainer.scrollLeft -= (COVER_WIDTH + 40);
 }
 
-window.addEventListener('load', () => {
-    
+window.addEventListener("load", () => {
+
     /* execution à l'ouverture ou rafraichissement de la page index */
     extractDataBestMovie();
     extractDataMovies("Best");
