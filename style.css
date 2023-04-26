@@ -1,5 +1,6 @@
 html {
     scroll-behavior: smooth;
+    user-select: none;
 }
 
 header {
@@ -28,7 +29,7 @@ nav a {
 img {
     border-radius: 30px;
     transition: transform 0.5s;
-    box-shadow: 0 0 28px rgba(0, 0, 0);
+    box-shadow: 0 0 18px rgba(0, 0, 0);
 }   
 
 .img-logo {
@@ -79,8 +80,6 @@ h3 {
     float:right;
     width: 273px;
     height: 403px;
-    /* margin-left: 200px; */
-    /* margin-right: auto; */
     margin-top: 20px;
     transition: transform 1s;
 }
@@ -111,7 +110,6 @@ h3 {
 }
 
 .modal-content {
-    user-select: none;
     z-index: 1000;
     border-radius: 20px;
     overflow: auto;

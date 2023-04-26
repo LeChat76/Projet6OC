@@ -18,6 +18,7 @@ async function extractDataBestMovie() {
         bestMovie = await createMovieObjModal(bestMovies["results"][0]["id"]);
         bestMovieTitle.innerHTML = bestMovie.title;
         bestMovieImg.src = bestMovie.image_url;
+        bestMovieImg.setAttribute("onDragStart", "return false");
         bestMovieDescription.innerHTML = bestMovie.description;
         bestMovieImg.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
         bestMovieImg.setAttribute("title", bestMovie.title + " (cliquez moi pour infos)")
@@ -73,6 +74,7 @@ function createDivImg(moviesUrls, gender) {
         newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
         newImg.setAttribute("style", "display: null;");
         newImg.setAttribute("title", movieUrl.title + " (cliquez moi pour infos)");
+        newImg.setAttribute("onDragStart", "return false");
         containerDiv.appendChild(newImg);
     });
 
