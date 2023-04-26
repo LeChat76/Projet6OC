@@ -1,7 +1,10 @@
 const baseUrl = "http://localhost:8000/api/v1/titles/?sort_by=-imdb_score";
 const coverWidth = 210;
-const coverMaxScrollLeft = 700;
-const coverMinScrollLeft = 250;
+setInterval(extractDataBestMovie, 5000);
+setInterval(extractDataMovies, 5000, "Best");
+setInterval(extractDataMovies, 5000, "Horror");
+setInterval(extractDataMovies, 5000, "Thriller");
+setInterval(extractDataMovies, 5000, "Comedy");
 
 async function extractDataBestMovie() {
 
@@ -53,29 +56,15 @@ async function extractDataMovies(gender) {
         createDivImg(moviesImgUrls, gender);
 }
 
-function createNewSection(moviesUrls, gender) {
-
-    /* creation des images */
-    moviesUrls.forEach((movieUrl, index) => {
-        let newImg = document.getElementById("img-" + gender + "-" + (index + 1));
-        newImg.setAttribute("src", movieUrl.image_url);
-        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
-        newImg.setAttribute("title", movieUrl.title + " (cliquez moi pour infos)");
-    });
-
-    let rightArrow = document.getElementById(gender + "-right");
-    let leftArrow = document.getElementById(gender + "-left");
-
-    /* modification du positionnement des boutons en fonctions de la taille de la section */
-    let heightContainer = container.clientHeight;
-    let heightArrow = rightArrow.clientHeight;
-    leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
-    rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
-};
-
 function createDivImg(moviesUrls, gender) {
 
-    let containerDiv = document.getElementById("container-" + gender);
+    const containerDiv = document.getElementById("container-" + gender);
+
+    if (containerDiv) {
+        containerDiv.innerHTML = "";
+    }
+
+    console.log ("containerDiv : ", containerDiv);
 
     /* creation des img */
     moviesUrls.forEach((movieUrl, index) => {
@@ -93,10 +82,11 @@ function createDivImg(moviesUrls, gender) {
     let leftArrow = document.getElementById(gender + "-left");
 
     /* modification du positionnement des boutons en fonctions de la taille de la section */
-    let heightContainer = container.clientHeight;
+    let heightContainer = containerDiv.clientHeight;
     let heightArrow = rightArrow.clientHeight;
     leftArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
     rightArrow.style.marginTop = (((heightContainer - (heightArrow / 2)) / 2) + "px");
+
 };
 
 
@@ -171,35 +161,24 @@ function closeModal() {
 function carouselRight(gender) {
     let imgContainer = document.getElementById("container-" + gender);
     let leftArrow = document.getElementById(gender + "-left");
-    let rightArrow = document.getElementById(gender + "-right");
+    // let rightArrow = document.getElementById(gender + "-right");
     leftArrow.style.pointerEvents = "auto";
     leftArrow.style.opacity = "0.4";
-
     imgContainer.scrollLeft += (coverWidth + 40);
 
-    /* desactivation du bouton fleche droite quand arrivé a la derniere image */
-    if (imgContainer.scrollLeft >= coverMaxScrollLeft) {
-        console.log("imgContainer.scrollLeft : ", imgContainer.scrollLeft);
-        rightArrow.style.pointerEvents = "none";
-        rightArrow.style.opacity = "0.1";
-    }
+    // if (imgContainer.scrollLeft == oldPos) {
+    //     rightArrow.style.pointerEvents = "none";
+    //     rightArrow.style.opacity = "0.1";
+    // }
 }
 
 function carouselLeft(gender) {
     let imgContainer = document.getElementById("container-" + gender);
-    let leftArrow = document.getElementById(gender + "-left");
+    // let leftArrow = document.getElementById(gender + "-left");
     let rightArrow = document.getElementById(gender + "-right");
     rightArrow.style.pointerEvents = "auto";
     rightArrow.style.opacity = "0.4";
-
     imgContainer.scrollLeft -= (coverWidth + 40);
-
-    /* desactivation du bouton fleche gauche quand arrivé au a la premiere image */
-    if (imgContainer.scrollLeft <= coverMinScrollLeft) {
-        console.log("imgContainer.scrollLeft : ", imgContainer.scrollLeft);
-        leftArrow.style.pointerEvents = "none";
-        leftArrow.style.opacity = "0.1";
-    }
 }
 
 window.addEventListener('load', () => {
