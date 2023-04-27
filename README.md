@@ -1,4 +1,4 @@
-(https://LeChat76/Projet6OC/blob/master/images/logo.PNG)
+<img width="325" alt="logo" src="https://user-images.githubusercontent.com/119883313/234912169-1855ec76-3ad7-43d7-8966-1c126753902b.png">
 
 # Web interface using HTML, CSS and Javscript
 ## Project 6 OpenClassRooms (web site of streaming using HTML, CSS and Javascript)
