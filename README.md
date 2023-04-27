@@ -1,3 +1,7 @@
+<p align="center">
+ <img width="325" alt="logo" src="https://user-images.githubusercontent.com/119883313/234912169-1855ec76-3ad7-43d7-8966-1c126753902b.png" width="650" height="160">
+</p>
+
 # Web interface using HTML, CSS and Javscript
 ## Project 6 OpenClassRooms (web site of streaming using HTML, CSS and Javascript)
 This project is the conception of a web site displaying movies in differents
@@ -5,7 +9,21 @@ This project is the conception of a web site displaying movies in differents
 ## Installation
 ```sh
 First, install OCMovies API on your computer by following this procedure:
-- https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR#readme
+Clone this repository:
+- "git clone https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR.git"
+Go to created folder:
+- "OCMovies-API-EN-FR"
+Create a virtual environment:
+- "py -m venv .env"
+Activate the virtual environment:
+- ".env\Scripts\activate" for Windows
+- "source .env/bin/activate" for MacOS or Linux
+Install project dependancy:
+- "pip install -r requirements.txt"
+Creatre and populate the IMDb database:
+- "python manage.py create_db"
+Run the web server:
+- "python manage.py runserver"
 Then clone my project:
 - "git clone https://github.com/LeChat76/Projet6OC.git"
 
