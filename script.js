@@ -151,7 +151,6 @@ async function openModal (movieId) {
 
     /* creation de l'objet film */
     const movieModal = await getMovieInfos(movieId)
-    console.log(movieModal.worldwide_gross_income)
 
     /* 'remplissage des champs du modal */
     movieImgModal.src = movieModal.image_url
