@@ -1,3 +1,5 @@
+<img src="/LeChat76/Projet6OC/blob/master/images/logo.PNG?raw=true" alt="logo.PNG">
+
 # Web interface using HTML, CSS and Javscript
 ## Project 6 OpenClassRooms (web site of streaming using HTML, CSS and Javascript)
 This project is the conception of a web site displaying movies in differents
