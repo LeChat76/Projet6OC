@@ -1,5 +1,5 @@
 <p align="center">
- <img width="325" alt="logo" src="https://user-images.githubusercontent.com/119883313/234912169-1855ec76-3ad7-43d7-8966-1c126753902b.png" width="650" height="250">
+ <img width="325" alt="logo" src="https://user-images.githubusercontent.com/119883313/234912169-1855ec76-3ad7-43d7-8966-1c126753902b.png" width="650" height="200">
 </p>
 
 # Web interface using HTML, CSS and Javscript
