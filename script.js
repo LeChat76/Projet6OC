@@ -1,206 +1,204 @@
-const BASE_URL = 'http://localhost:8000/api/v1/titles';
-const BASE_URL_BY_SCORE = BASE_URL + '/?sort_by=-imdb_score';
-const COVER_WIDTH = 210;
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
+const BASE_URL = 'http://localhost:8000/api/v1/titles'
+const BASE_URL_BY_SCORE = BASE_URL + '/?sort_by=-imdb_score'
+const COVER_WIDTH = 210
 
-setInterval(console.clear, 9999);
-setInterval(extractDataBestMovie, 10000);
-setInterval(extractDataMovies, 10000, 'Best');
-setInterval(extractDataMovies, 10000, 'Horror');
-setInterval(extractDataMovies, 10000, 'Thriller');
-setInterval(extractDataMovies, 10000, 'Comedy');
+// setInterval(console.clear, 9999)
+setInterval(extractDataBestMovie, 10000)
+setInterval(extractDataMovies, 10000, 'Best')
+setInterval(extractDataMovies, 10000, 'Horror')
+setInterval(extractDataMovies, 10000, 'Thriller')
+setInterval(extractDataMovies, 10000, 'Comedy')
 
-async function extractDataBestMovie() {
-    let bestMovieTitle = document.getElementById("best-movie-title");
-    let bestMovieImg = document.getElementsByClassName("best-cover")
-    [0].getElementsByTagName("img")[0];
-    let bestMovieDescription = document.getElementsByClassName
-        ("best-movie-summary")[0].getElementsByTagName("p")[0];
-    let bestMovieButton = document.getElementById("bestMovieButton");
+async function extractDataBestMovie () {
+    const bestMovieTitle = document.getElementById('best-movie-title')
+    const bestMovieImg = document.getElementsByClassName(
+        'best-cover')[0].getElementsByTagName('img')[0]
+    const bestMovieDescription = document.getElementsByClassName(
+        'best-movie-summary')[0].getElementsByTagName('p')[0]
+    const bestMovieButton = document.getElementById('bestMovieButton')
 
-    let bestMovies = await fetch(BASE_URL_BY_SCORE)
+    const bestMovies = await fetch(BASE_URL_BY_SCORE)
         .then(function (response) {
-            return response.json();
+            return response.json()
         })
         .catch(function (error) {
-            alert("Probleme de connexion à l'API : " + error);
+            alert("Probleme de connexion à l'API : " + error)
         })
-    bestMovie = await getMovieInfos(bestMovies.results[0].id);
-    bestMovieTitle.innerHTML = bestMovie.title;
-    bestMovieImg.src = bestMovie.image_url;
-    bestMovieImg.setAttribute("onDragStart", "return false");
-    bestMovieDescription.innerHTML = bestMovie.description;
-    bestMovieImg.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
-    bestMovieImg.setAttribute("title", bestMovie.title +
-        " (cliquez moi pour infos)");
-    bestMovieButton.setAttribute("onclick", "openModal(" + bestMovie.id + ")");
+    const bestMovie = await getMovieInfos(bestMovies.results[0].id)
+    bestMovieTitle.innerHTML = bestMovie.title
+    bestMovieImg.src = bestMovie.image_url
+    bestMovieImg.setAttribute('onDragStart', 'return false')
+    bestMovieDescription.innerHTML = bestMovie.description
+    bestMovieImg.setAttribute('onclick', 'openModal(' + bestMovie.id + ')')
+    bestMovieImg.setAttribute('title', bestMovie.title +
+        ' (cliquez moi pour infos)')
+    bestMovieButton.setAttribute('onclick', 'openModal(' + bestMovie.id + ')')
 }
 
-function createMovieObject(movie) {
-    let movieObj = new Object();
-    movieObj.id = movie.id;
-    movieObj.image_url = movie.image_url;
-    movieObj.title = movie.title;
-    return movieObj;
+function createMovieObject (movie) {
+    const movieObj = {}
+    movieObj.id = movie.id
+    movieObj.image_url = movie.image_url
+    movieObj.title = movie.title
+    return movieObj
 }
 
-async function extractDataMovies(gender) {
-    let minImg = 0;
-    let maxImg = 7;
-    if (gender == "Best") {
-        reqUrl = BASE_URL_BY_SCORE + "&page_size=8";
+async function extractDataMovies (gender) {
+    let minImg = 0
+    let maxImg = 7
+    let reqUrl = null
+    if (gender === 'Best') {
+        reqUrl = BASE_URL_BY_SCORE + '&page_size=8'
     } else {
-        reqUrl = BASE_URL_BY_SCORE + "&genre_contains=" + gender +
-            "&page_size=7";
+        reqUrl = BASE_URL_BY_SCORE + '&genre_contains=' + gender +
+            '&page_size=7'
     }
-    let moviesImgUrls = new Array();
-    let movies = await fetch(reqUrl)
+    const moviesImgUrls = []
+    const movies = await fetch(reqUrl)
         .then(function (response) {
-            return response.json();
+            return response.json()
         })
-    // .catch(function(error) {
-    //     alert("Probleme connexion API infos films categories : " + error);
-    // })
-    if (gender == "Best") {
-        minImg = 1;
-        maxImg = 8;
+    if (gender === 'Best') {
+        minImg = 1
+        maxImg = 8
     }
-    let i = minImg;
+    let i = minImg
     for (i; i < maxImg; i += 1) {
-        movieImgUrl = await createMovieObject(movies.results[i]);
-        moviesImgUrls.push(movieImgUrl);
+        const movieImgUrl = await createMovieObject(movies.results[i])
+        moviesImgUrls.push(movieImgUrl)
     }
 
-    createDivImg(moviesImgUrls, gender);
+    createDivImg(moviesImgUrls, gender)
 }
 
-function createDivImg(moviesUrls, gender) {
+function createDivImg (moviesUrls, gender) {
+    const containerDiv = document.getElementById('container-' + gender)
+    containerDiv.innerHTML = ''
 
-    let containerDiv = document.getElementById("container-" + gender);
-    containerDiv.innerHTML = "";
-
-    console.log("Declenchement setInterval : " + gender);
+    // console.log('Declenchement setInterval : ' + gender)
 
     /* creation des img */
     moviesUrls.forEach((movieUrl, index) => {
-        newImg = document.createElement("img");
-        newImg.setAttribute("src", movieUrl.image_url);
-        newImg.setAttribute("class", "cover");
-        newImg.setAttribute("onclick", "openModal(" + movieUrl.id + ")");
-        newImg.setAttribute("id", "img-" + gender + "-" + (index + 1));
-        newImg.setAttribute("style", "display: null;");
-        newImg.setAttribute("title", movieUrl.title +
-            " (cliquez moi pour infos)");
-        newImg.setAttribute("onDragStart", "return false");
-        containerDiv.appendChild(newImg);
-    });
+        const newImg = document.createElement('img')
+        newImg.setAttribute('src', movieUrl.image_url)
+        newImg.setAttribute('class', 'cover')
+        newImg.setAttribute('onclick', 'openModal(' + movieUrl.id + ')')
+        newImg.setAttribute('id', 'img-' + gender + '-' + (index + 1))
+        newImg.setAttribute('style', 'display: null;')
+        newImg.setAttribute('title', movieUrl.title +
+            ' (cliquez moi pour infos)')
+        newImg.setAttribute('onDragStart', 'return false')
+        containerDiv.appendChild(newImg)
+    })
 
-    let rightArrow = document.getElementById(gender + "-right");
-    let leftArrow = document.getElementById(gender + "-left");
+    const rightArrow = document.getElementById(gender + '-right')
+    const leftArrow = document.getElementById(gender + '-left')
 
     /* positionnement auto des boutons en fonctions de taille de la section */
-    let heightContainer = containerDiv.clientHeight;
-    let heightArrow = rightArrow.clientHeight;
-    leftArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
-    rightArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + "px");
+    const heightContainer = containerDiv.clientHeight
+    const heightArrow = rightArrow.clientHeight
+    leftArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + 'px')
+    rightArrow.style.marginTop = (((heightContainer - heightArrow) / 2) + 'px')
 }
 
-
-async function getMovieInfos(movieId) {
+async function getMovieInfos (movieId) {
     return fetch(`${BASE_URL}/${movieId}`)
         .then(function (response) {
-            return response.json();
+            return response.json()
         })
-        .then(function (movieImdb_UrlJson) {
-            let movieObj = new Object();
+        .then(function (movieImdbUrlJson) {
+            const movieObj = {}
 
             /* récupération de tous les attributs */
-            movieObj.id = movieImdb_UrlJson.id;
-            movieObj.image_url = movieImdb_UrlJson.image_url;
-            movieObj.title = movieImdb_UrlJson.title;
-            movieObj.genres = movieImdb_UrlJson.genres;
-            movieObj.date_published = movieImdb_UrlJson.date_published;
-            movieObj.rated = movieImdb_UrlJson.rated;
-            movieObj.imdb_score = movieImdb_UrlJson.imdb_score;
-            movieObj.directors = movieImdb_UrlJson.directors;
-            movieObj.actors = movieImdb_UrlJson.actors;
-            movieObj.duration = movieImdb_UrlJson.duration;
-            movieObj.countries = movieImdb_UrlJson.countries;
+            movieObj.id = movieImdbUrlJson.id
+            movieObj.image_url = movieImdbUrlJson.image_url
+            movieObj.title = movieImdbUrlJson.title
+            movieObj.genres = movieImdbUrlJson.genres
+            movieObj.date_published = movieImdbUrlJson.date_published
+            movieObj.rated = movieImdbUrlJson.rated
+            movieObj.imdb_score = movieImdbUrlJson.imdb_score
+            movieObj.directors = movieImdbUrlJson.directors
+            movieObj.actors = movieImdbUrlJson.actors
+            movieObj.duration = movieImdbUrlJson.duration
+            movieObj.countries = movieImdbUrlJson.countries
             movieObj.worldwide_gross_income =
-                movieImdb_UrlJson.worldwide_gross_income;
-            movieObj.description = movieImdb_UrlJson.description;
-            return movieObj;
+                movieImdbUrlJson.worldwide_gross_income
+            movieObj.description = movieImdbUrlJson.description
+            return movieObj
         })
 }
 
-async function openModal(movieId) {
-    let modal = document.getElementById("modal");
+async function openModal (movieId) {
+    const modal = document.getElementById('modal')
 
     /* recuperation de chaque elements du DOM */
-    let movieTitleModal = document.getElementById("modal-title");
-    let movieImgModal = document.getElementById("modal-cover");
-    let movieGenre = document.getElementById("modal-genre");
-    let movieDatePublished = document.getElementById("modal-date-published");
-    let movieRated = document.getElementById("modal-rated");
-    let movieImdbScore = document.getElementById("modal-imdb-score");
-    let movieDirectors = document.getElementById("modal-directors");
-    let movieActors = document.getElementById("modal-actors");
-    let movieDuration = document.getElementById("modal-duration");
-    let movieCountries = document.getElementById("modal-countries");
-    let movieWorldwideGrossIncome = document.getElementById
-        ("modal-worldwide-gross-income");
-    let movieDescription = document.getElementById("modal-description");
+    const movieTitleModal = document.getElementById('modal-title')
+    const movieImgModal = document.getElementById('modal-cover')
+    const movieGenre = document.getElementById('modal-genre')
+    const movieDatePublished = document.getElementById('modal-date-published')
+    const movieRated = document.getElementById('modal-rated')
+    const movieImdbScore = document.getElementById('modal-imdb-score')
+    const movieDirectors = document.getElementById('modal-directors')
+    const movieActors = document.getElementById('modal-actors')
+    const movieDuration = document.getElementById('modal-duration')
+    const movieCountries = document.getElementById('modal-countries')
+    const movieWorldwideGrossIncome = document.getElementById(
+        'modal-worldwide-gross-income')
+    const movieDescription = document.getElementById('modal-description')
 
     /* creation de l'objet film */
-    movieModal = await getMovieInfos(movieId);
+    const movieModal = await getMovieInfos(movieId)
+    console.log(movieModal.worldwide_gross_income)
 
     /* 'remplissage des champs du modal */
-    movieImgModal.src = movieModal.image_url;
-    movieTitleModal.innerHTML = movieModal.title;
-    movieGenre.innerHTML = movieModal.genres;
-    movieDatePublished.innerHTML = movieModal.date_published;
-    movieRated.innetHTML = movieModal.rated;
-    movieImdbScore.innerHTML = movieModal.imdb_score;
-    movieDirectors.innerHTML = movieModal.directors;
-    movieActors.innerHTML = movieModal.actors;
-    movieDuration.innerHTML = movieModal.duration;
-    movieCountries.innerHTML = movieModal.countries;
-    movieWorldwideGrossIncome.innerHTML = movieModal.worldwide_gross_income;
-    movieDescription.innerHTML = movieModal.description;
+    movieImgModal.src = movieModal.image_url
+    movieTitleModal.innerHTML = movieModal.title
+    movieGenre.innerHTML = movieModal.genres
+    movieDatePublished.innerHTML = movieModal.date_published
+    movieRated.innerHTML = movieModal.rated
+    movieImdbScore.innerHTML = movieModal.imdb_score
+    movieDirectors.innerHTML = movieModal.directors
+    movieActors.innerHTML = movieModal.actors
+    movieDuration.innerHTML = movieModal.duration
+    movieCountries.innerHTML = movieModal.countries
+    movieWorldwideGrossIncome.innerHTML = movieModal.worldwide_gross_income
+    movieDescription.innerHTML = movieModal.description
 
     /* affichage du modal */
-    modal.style.display = null;
+    modal.style.display = null
 }
 
-function closeModal() {
+function closeModal () {
     /* faire disparaitre le modal */
-    let modal = document.getElementById("modal");
-    modal.style.display = "none";
+    const modal = document.getElementById('modal')
+    modal.style.display = 'none'
 }
 
-function carouselRight(gender) {
-    let imgContainer = document.getElementById("container-" + gender);
-    let leftArrow = document.getElementById(gender + "-left");
-    // let rightArrow = document.getElementById(gender + "-right");
-    leftArrow.style.pointerEvents = "auto";
-    leftArrow.style.opacity = "0.4";
-    imgContainer.scrollLeft += (COVER_WIDTH + 40);
+function carouselRight (gender) {
+    const imgContainer = document.getElementById('container-' + gender)
+    const leftArrow = document.getElementById(gender + '-left')
+  // let rightArrow = document.getElementById(gender + "-right");
+    leftArrow.style.pointerEvents = 'auto'
+    leftArrow.style.opacity = '0.4'
+    imgContainer.scrollLeft += (COVER_WIDTH + 40)
 }
 
-function carouselLeft(gender) {
-    let imgContainer = document.getElementById("container-" + gender);
-    // let leftArrow = document.getElementById(gender + "-left");
-    let rightArrow = document.getElementById(gender + "-right");
-    rightArrow.style.pointerEvents = "auto";
-    rightArrow.style.opacity = "0.4";
-    imgContainer.scrollLeft -= (COVER_WIDTH + 40);
+function carouselLeft (gender) {
+    const imgContainer = document.getElementById('container-' + gender)
+    const rightArrow = document.getElementById(gender + '-right')
+    rightArrow.style.pointerEvents = 'auto'
+    rightArrow.style.opacity = '0.4'
+    imgContainer.scrollLeft -= (COVER_WIDTH + 40)
 }
 
-window.addEventListener("load", () => {
-
-    /* execution à l'ouverture ou rafraichissement de la page index */
-    extractDataBestMovie();
-    extractDataMovies("Best");
-    extractDataMovies("Horror");
-    extractDataMovies("Thriller");
-    extractDataMovies("Comedy");
-});
+window.addEventListener('load', () => {
+  /* execution à l'ouverture ou rafraichissement de la page index */
+    extractDataBestMovie()
+    extractDataMovies('Best')
+    extractDataMovies('Horror')
+    extractDataMovies('Thriller')
+    extractDataMovies('Comedy')
+})
