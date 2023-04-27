@@ -1,4 +1,6 @@
-<img width="325" alt="logo" src="https://user-images.githubusercontent.com/119883313/234912169-1855ec76-3ad7-43d7-8966-1c126753902b.png" style="width: auto; height: auto">
+<p align="center">
+ <img width="325" alt="logo" src="https://user-images.githubusercontent.com/119883313/234912169-1855ec76-3ad7-43d7-8966-1c126753902b.png">
+</p>
 
 # Web interface using HTML, CSS and Javscript
 ## Project 6 OpenClassRooms (web site of streaming using HTML, CSS and Javascript)
