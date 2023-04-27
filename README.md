@@ -12,7 +12,7 @@ First, install OCMovies API on your computer by following this procedure:
 Clone this repository:
 - "git clone https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR.git"
 Go to created folder:
-- "OCMovies-API-EN-FR"
+- "cd OCMovies-API-EN-FR"
 Create a virtual environment:
 - "py -m venv .env"
 Activate the virtual environment:
