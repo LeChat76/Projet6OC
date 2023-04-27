@@ -83,3 +83,9 @@ fabric.properties
 /.env/
 /data/
 __pycache__/
+
+# ESLint
+/node_modules/
+.eslintrc.js 
+package-lock.json
+package.json

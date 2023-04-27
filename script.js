@@ -1,16 +1,15 @@
-const BASE_URL = "http://localhost:8000/api/v1/titles";
-const BASE_URL_BY_SCORE = BASE_URL + "/?sort_by=-imdb_score";
+const BASE_URL = 'http://localhost:8000/api/v1/titles';
+const BASE_URL_BY_SCORE = BASE_URL + '/?sort_by=-imdb_score';
 const COVER_WIDTH = 210;
 
 setInterval(console.clear, 9999);
 setInterval(extractDataBestMovie, 10000);
-setInterval(extractDataMovies, 10000, "Best");
-setInterval(extractDataMovies, 10000, "Horror");
-setInterval(extractDataMovies, 10000, "Thriller");
-setInterval(extractDataMovies, 10000, "Comedy");
+setInterval(extractDataMovies, 10000, 'Best');
+setInterval(extractDataMovies, 10000, 'Horror');
+setInterval(extractDataMovies, 10000, 'Thriller');
+setInterval(extractDataMovies, 10000, 'Comedy');
 
 async function extractDataBestMovie() {
-
     let bestMovieTitle = document.getElementById("best-movie-title");
     let bestMovieImg = document.getElementsByClassName("best-cover")
     [0].getElementsByTagName("img")[0];
