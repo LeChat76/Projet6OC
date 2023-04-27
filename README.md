@@ -1,4 +1,4 @@
-# Software to manage chess tournament
+# Web interface using HTML, CSS and Javscript
 ## Project 6 OpenClassRooms (web site of streaming using HTML, CSS and Javascript)
 This project is the conception of a web site displaying movies in differents
  categories.
