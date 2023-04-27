@@ -24,7 +24,7 @@ Creatre and populate the IMDb database:
 - "python manage.py create_db"
 Run the web server:
 - "python manage.py runserver"
-Then clone my project:
+In another command line, clone my project:
 - "git clone https://github.com/LeChat76/Projet6OC.git"
 
 ```
