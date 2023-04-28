@@ -61,16 +61,23 @@ async function extractDataMovies (gender) {
             '&page_size=7'
     }
     const moviesImgUrls = []
-    const movies = await fetch(reqUrl)
+    await fetch(reqUrl)
         .then(function (response) {
             return response.json()
         })
+        .then(function (response) {
+            let i = minImg
+            for (i; i < maxImg; i += 1) {
+                const movieImgUrl = createMovieObject(response.results[i])
+                moviesImgUrls.push(movieImgUrl)
+            }
+        })
 
-    let i = minImg
-    for (i; i < maxImg; i += 1) {
-        const movieImgUrl = createMovieObject(movies.results[i])
-        moviesImgUrls.push(movieImgUrl)
-    }
+    
+    // for (i; i < maxImg; i += 1) {
+    //     const movieImgUrl = createMovieObject(movies.results[i])
+    //     moviesImgUrls.push(movieImgUrl)
+    // }
 
     createDivImg(moviesImgUrls, gender)
 }
