@@ -49,6 +49,10 @@ function createMovieObject (movie) {
 async function extractDataMovies (gender) {
     let minImg = 0
     let maxImg = 7
+    if (gender === 'Best') {
+        minImg = 1
+        maxImg = 8
+    }
     let reqUrl = null
     if (gender === 'Best') {
         reqUrl = BASE_URL_BY_SCORE + '&page_size=8'
@@ -61,13 +65,10 @@ async function extractDataMovies (gender) {
         .then(function (response) {
             return response.json()
         })
-    if (gender === 'Best') {
-        minImg = 1
-        maxImg = 8
-    }
+
     let i = minImg
     for (i; i < maxImg; i += 1) {
-        const movieImgUrl = await createMovieObject(movies.results[i])
+        const movieImgUrl = createMovieObject(movies.results[i])
         moviesImgUrls.push(movieImgUrl)
     }
 
@@ -105,7 +106,7 @@ function createDivImg (moviesUrls, gender) {
 }
 
 async function getMovieInfos (movieId) {
-    return fetch(`${BASE_URL}/${movieId}`)
+    return await fetch(`${BASE_URL}/${movieId}`)
         .then(function (response) {
             return response.json()
         })
