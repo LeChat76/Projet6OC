@@ -73,12 +73,6 @@ async function extractDataMovies (gender) {
             }
         })
 
-    
-    // for (i; i < maxImg; i += 1) {
-    //     const movieImgUrl = createMovieObject(movies.results[i])
-    //     moviesImgUrls.push(movieImgUrl)
-    // }
-
     createDivImg(moviesImgUrls, gender)
 }
 
