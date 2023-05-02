@@ -4,6 +4,10 @@
 const BASE_URL = 'http://localhost:8000/api/v1/titles'
 const BASE_URL_BY_SCORE = BASE_URL + '/?sort_by=-imdb_score'
 const COVER_WIDTH = 210
+const MIN_IMG_CAROUSEL = 0
+const MAX_IMG_CAROUSEL = 7
+const MIN_IMG_BEST_CAROUSEL = 1
+const MAX_IMG_BEST_CAROUSEL = 8
 
 // setInterval(console.clear, 9999)
 setInterval(extractDataBestMovie, 10000)
@@ -47,18 +51,18 @@ function createMovieObject (movie) {
 }
 
 async function extractDataMovies (gender) {
-    let minImg = 0
-    let maxImg = 7
+    let minImg = MIN_IMG_CAROUSEL
+    let maxImg = MAX_IMG_CAROUSEL
     if (gender === 'Best') {
-        minImg = 1
-        maxImg = 8
+        minImg = MIN_IMG_BEST_CAROUSEL
+        maxImg = MAX_IMG_BEST_CAROUSEL
     }
     let reqUrl = null
     if (gender === 'Best') {
-        reqUrl = BASE_URL_BY_SCORE + '&page_size=8'
+        reqUrl = BASE_URL_BY_SCORE + '&page_size=' + MAX_IMG_BEST_CAROUSEL
     } else {
         reqUrl = BASE_URL_BY_SCORE + '&genre_contains=' + gender +
-            '&page_size=7'
+            '&page_size=' + MAX_IMG_CAROUSEL
     }
     const moviesImgUrls = []
     await fetch(reqUrl)
